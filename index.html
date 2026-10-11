@@ -16,7 +16,7 @@
 <script>
 /* ===== CONFIG: wklej tutaj swój klucz PostHog (Project API key, zaczyna się od phc_) ===== */
 window.CM_CONFIG = {
-  posthogKey: "phc_AzAKaGfacN2V5A5Ankr5A58UFmyE5h3pjNqu3cZGo8nR",                              // np. "phc_AbC123..."  (puste = statystyki wyłączone)
+  posthogKey: "",                              // np. "phc_AbC123..."  (puste = statystyki wyłączone)
   posthogHost: "https://eu.i.posthog.com",     // EU Cloud; dla US: https://us.i.posthog.com
   feedbackUrl: "https://t.me/deleniv",         // dokąd prowadzi „Napisz opinię”
   privacyUrl: "/privacy.html"
@@ -452,8 +452,47 @@ a.btn{text-decoration:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 body.dark .ob-chip,body.dark .ob-row{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.08)}body.dark .ob-chip[aria-pressed="true"]{background:rgba(135,145,255,.16);color:#C9CEFF}
 body.dark .ob-in-amt,body.dark .ob-in-date input{background:rgba(255,255,255,.08)}
+
+/* ---------- splash: logo reveal, no progress bars ---------- */
+#splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;overflow:hidden;color:#fff;
+  background:radial-gradient(60% 45% at 85% 8%,rgba(170,210,255,.55),transparent 70%),radial-gradient(55% 45% at 5% 85%,rgba(150,120,255,.45),transparent 70%),linear-gradient(165deg,#3442E8 0%,#5866FF 55%,#8791FF 100%);
+  transition:opacity .55s ease,visibility .55s;}
+#splash.out{opacity:0;visibility:hidden}
+#splash .sp-glow{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.28),transparent 62%);animation:spGlow 2.4s ease-in-out infinite alternate}
+#splash .sp-orb{position:absolute;border-radius:50%;filter:blur(2px);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.55),rgba(255,255,255,.08) 70%);animation:spFloat 6s ease-in-out infinite alternate}
+#splash .sp-orb.a{width:90px;height:90px;left:12%;top:18%}
+#splash .sp-orb.b{width:54px;height:54px;right:14%;top:30%;animation-delay:-2s}
+#splash .sp-orb.c{width:130px;height:130px;right:-30px;bottom:14%;animation-delay:-4s;opacity:.7}
+#splash .sp-in{position:relative;display:grid;justify-items:center;gap:22px;transition:transform .6s cubic-bezier(.2,.8,.2,1),filter .6s}
+#splash.out .sp-in{transform:scale(1.08);filter:blur(6px)}
+#splash .sp-tile{width:108px;height:108px;border-radius:34px;display:grid;place-items:center;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.5);
+  box-shadow:inset 0 0 30px rgba(255,255,255,.35);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);animation:spPop .9s cubic-bezier(.2,1.4,.4,1) both}
+#splash .sp-tile svg{width:100px;height:100px;overflow:visible}
+#splash .sp-d{transform-origin:50px 50px;transform:scale(.4);opacity:0;animation:spD .7s .25s cubic-bezier(.2,1.5,.4,1) forwards}
+#splash .sp-hole{transform-origin:48px 50px;transform:scale(0);animation:spCoin .55s .8s cubic-bezier(.2,1.6,.4,1) forwards}
+#splash .sp-word{display:flex;font:700 40px/1 "Urbanist","Helvetica Neue",Arial,sans-serif;letter-spacing:-.02em}
+#splash .sp-word span{display:inline-block;opacity:0;transform:translateY(16px);animation:spUp .6s cubic-bezier(.2,.8,.2,1) forwards}
+#splash .sp-tag{font:500 15px/1.4 "Manrope","Helvetica Neue",Arial,sans-serif;color:rgba(255,255,255,.82);opacity:0;animation:spFade .6s .85s ease forwards;text-align:center;padding:0 24px}
+@keyframes spPop{0%{opacity:0;transform:scale(.55) rotate(-8deg)}100%{opacity:1;transform:none}}
+@keyframes spD{to{transform:none;opacity:1}}
+@keyframes spCoin{to{transform:scale(1)}}
+@keyframes spUp{to{opacity:1;transform:none}}
+@keyframes spFade{to{opacity:1}}
+@keyframes spGlow{from{transform:scale(.85);opacity:.7}to{transform:scale(1.1);opacity:1}}
+@keyframes spFloat{from{transform:translate(0,0)}to{transform:translate(14px,-22px)}}
+@media (prefers-reduced-motion:reduce){#splash *{animation-duration:.01s!important;animation-delay:0s!important}#splash .sp-d,#splash .sp-hole{transform:none;opacity:1}}
+.ob-logo.brand svg{width:80px;height:80px}.inst-app svg{width:72px;height:72px}
 </style>
 
+<div id="splash" role="status" aria-label="DeSave">
+  <div class="sp-glow"></div><div class="sp-orb a"></div><div class="sp-orb b"></div><div class="sp-orb c"></div>
+  <div class="sp-in">
+    <div class="sp-tile"><svg viewBox="0 0 100 100" aria-hidden="true"><defs><mask id="spHole"><rect width="100" height="100" fill="#fff"/><circle class="sp-hole" cx="48" cy="50" r="9" fill="#000"/></mask></defs><path class="sp-d" fill="#fff" mask="url(#spHole)" d="M28 26h20a24 24 0 0 1 0 48H28z"/></svg></div>
+    <div class="sp-word" aria-hidden="true"><span style="animation-delay:.45s">D</span><span style="animation-delay:.5s">e</span><span style="animation-delay:.58s">S</span><span style="animation-delay:.63s">a</span><span style="animation-delay:.68s">v</span><span style="animation-delay:.73s">e</span></div>
+    <div class="sp-tag" id="spTag">Wszystkie opłaty w jednym miejscu</div>
+  </div>
+</div>
+<script>(function(){try{var st=JSON.parse(localStorage.getItem("co-miesiac-v4-c")||"null"),l=st&&st.lang||((navigator.language||"pl").toLowerCase().slice(0,2));var m={uk:"Усі платежі в одному місці",en:"All your bills in one place"};if(m[l])document.getElementById("spTag").textContent=m[l];}catch(e){}window.__spT0=Date.now();})();</script>
 <div class="ambient" aria-hidden="true"></div>
 <div class="app"><main id="view"></main></div>
 <nav class="tabs" id="tabs" aria-label="Menu"></nav>
@@ -923,7 +962,7 @@ function openInstall(src){
   const ios=`<ol class="inst-steps">${step(1,`${t("inst_ios1")} <span class="inst-ic">${svg("M12 3v12M8 7l4-4 4 4M5 11v9h14v-9",2)}</span>`)}${step(2,t("inst_ios2"))}${step(3,t("inst_ios3"))}</ol>`;
   const and=installEvt?"":`<ol class="inst-steps">${step(1,t("inst_and1"))}${step(2,t("inst_and2"))}${step(3,t("inst_and3"))}</ol>`;
   const body=pf==="ios"?ios:pf==="android"?and:(installEvt?"":`<p class="lead" style="margin:0">${t("inst_desk")}</p>`);
-  openSheet(`<div class="inst-hero"><div class="inst-app">${svg(ICONS.home,1.9)}</div></div><h3 style="text-align:center">${t("inst_h")}</h3><p style="margin:0;font-size:14px;line-height:1.5;color:var(--ink-2);text-align:center">${t("inst_t")}</p>${body}
+  openSheet(`<div class="inst-hero"><div class="inst-app">${BRAND}</div></div><h3 style="text-align:center">${t("inst_h")}</h3><p style="margin:0;font-size:14px;line-height:1.5;color:var(--ink-2);text-align:center">${t("inst_t")}</p>${body}
     <div style="display:grid;gap:8px">${installEvt?`<button type="button" class="btn primary" data-inst="go">${t("inst_btn")}</button>`:""}<button type="button" class="btn ${installEvt?"soft":"primary"}" data-inst="later">${installEvt?t("inst_later"):t("inst_done")}</button></div>`);
   track("install_prompt_shown",{platform:pf,native:!!installEvt,source:src||"auto"});
   S.installSeen=true; save();
@@ -935,6 +974,7 @@ function openInstall(src){
 function maybeInstall(){ if(!isStandalone()&&!S.installSeen&&!window.__CM_VARIANT__) setTimeout(()=>openInstall("after_onboarding"),400); }
 const FEEDBACK_URL=CFG.feedbackUrl||"https://t.me/deleniv";
 
+const BRAND=`<svg viewBox="0 0 100 100" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M28 26h20a24 24 0 0 1 0 48H28zM48 41a9 9 0 1 0 0 18 9 9 0 0 0 0-18z"/></svg>`;
 /* ---------- onboarding ---------- */
 let obStep=0, obPicks=[], obVals={};
 const OB_STEPS=5;
@@ -942,7 +982,7 @@ const QUICK=[["rent","dom",1],["mortgage","dom",1],["power","media",2],["gas","m
 const LANG_OPTS=[["pl","Polski","Polish · polski"],["uk","Українська","Ukrainian · ukraiński"],["en","English","English · angielski"]];
 function nextDay10(){ const x=today(); let d=new Date(x.getFullYear(),x.getMonth(),10); if(d<x) d=new Date(x.getFullYear(),x.getMonth()+1,10); return iso(d); }
 function obArt(){
-  if(obStep===0) return `<div class="ob-logo">${svg(ICONS.home,1.8)}</div>`;
+  if(obStep===0) return `<div class="ob-logo brand">${BRAND}</div>`;
   if(obStep===1){ const m=(k,c,a)=>`<div class="ob-mini">${tile({k,cat:c})}<b>${esc(t("p_"+k))}</b><span class="num">${a} zł</span></div>`;
     return `<div class="ob-stack">${m("rent","dom","650")}${m("power","media","184")}${m("netflix","rozrywka","49")}</div>`; }
   if(obStep===2) return `<div style="display:grid;justify-items:center;width:100%"><div class="ob-askmini"><div class="top-l">${tile({k:"netflix",cat:"rozrywka"})}<div><small>${(w=>w.charAt(0).toUpperCase()+w.slice(1))(t("tomorrow"))} · 49,00 zł</small><b>Netflix</b></div></div><p>${t("ask_q")}</p><div class="ab"><span>${t("ask_yes")}</span><span>${t("ask_no")}</span></div></div><span class="ob-save">${svg(UI.arrowDown,2.2)}${t("can_save")}: 588 zł ${t("per_y")}</span></div>`;
@@ -1250,6 +1290,9 @@ function openProfile(scroll){
 function keepProfileDraft(sh){ const pr=S.profile, q=s=>sh.querySelector(s); if(!q("#pf-name")) return; pr.name=q("#pf-name").value.trim(); pr.home=q("#pf-home").value.trim(); pr.remind=Number(q("#pf-remind").value); pr.notif=q("#pf-notif").checked; pr.hide=q("#pf-hide").checked; pr.photo=draftPhoto||null; }
 
 render();
+(function(){ const sp=document.getElementById("splash"); if(!sp) return; const t0=window.__spT0||Date.now(); let done=false;
+  const hide=()=>{ if(done) return; done=true; const wait=Math.max(0,(S.onboarded?1600:2300)-(Date.now()-t0)); setTimeout(()=>{ sp.classList.add("out"); setTimeout(()=>sp.remove(),650); },wait); };
+  try{ (document.fonts&&document.fonts.ready?document.fonts.ready:Promise.resolve()).then(hide,hide); }catch(e){ hide(); } setTimeout(hide,3000); })();
 track("app_opened",{standalone:isStandalone(),platform:platform(),onboarded:!!S.onboarded,items:S.items.length,expenses:S.expenses.length,demo:!!S.demo,variant:VARIANT});
 })();
 </script>

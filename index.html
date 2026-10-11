@@ -501,6 +501,12 @@ body::before{content:"";position:fixed;left:0;right:0;top:0;height:env(safe-area
   background:linear-gradient(180deg,rgba(62,76,240,.96),rgba(62,76,240,.85));-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
 body.dark::before{background:rgba(15,17,23,.92)}
 body.onb::before{display:none}
+.sheet .in{position:relative}
+.sheet-x{position:absolute;top:10px;right:0;z-index:2;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;color:var(--ink-2);background:rgba(36,37,39,.07)}
+.sheet-x svg{width:18px;height:18px}.sheet-x:active{transform:scale(.94)}
+.sheet-x:focus-visible{outline:2px solid var(--b);outline-offset:2px}
+body.dark .sheet-x{background:rgba(255,255,255,.1);color:var(--ink)}
+.sheet h3{padding-right:44px}
 </style>
 
 <div id="splash" role="status" aria-label="DeSave">
@@ -1118,7 +1124,7 @@ view.addEventListener("click",handle); tabsEl.addEventListener("click",handle);
 /* ---------- sheets ---------- */
 const root=document.getElementById("sheetRoot");
 function closeSheet(){ root.innerHTML=""; document.body.style.overflow=""; }
-function openSheet(html){ root.innerHTML=`<div class="scrim" data-close></div><div class="sheet" role="dialog" aria-modal="true"><div class="in"><div class="grab"></div>${html}</div></div>`; document.body.style.overflow="hidden"; const f=root.querySelector(".sheet button:not([data-close]),.sheet input"); if(f) f.focus({preventScroll:true}); }
+function openSheet(html){ root.innerHTML=`<div class="scrim" data-close></div><div class="sheet" role="dialog" aria-modal="true"><div class="in"><div class="grab"></div><button type="button" class="sheet-x" data-close aria-label="${t("close")}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>${html}</div></div>`; document.body.style.overflow="hidden"; const f=root.querySelector(".sheet button:not([data-close]),.sheet input"); if(f) f.focus({preventScroll:true}); }
 root.addEventListener("click",e=>{ if(e.target.closest("[data-close]")){ closeSheet(); return; }
   const pr=e.target.closest('[data-act="profile"]'); if(pr){ openProfile(); return; }
   const o=e.target.closest("[data-open]"); if(o&&!e.target.closest("[data-d]")) openDetail(o.dataset.open); });
@@ -1177,7 +1183,7 @@ function openEdit(p,preset){
   const nm=d.name||(d.k?t("p_"+d.k):"");
   const cats=REC_CATS.includes(d.cat)?REC_CATS:[d.cat,...REC_CATS];
   openSheet(`<div style="display:flex;align-items:center;gap:12px">${tile(d)}<h3>${isNew?t("new_title"):t("edit_title")}</h3></div>
-  <form id="editForm" style="display:grid;gap:12px">
+  <form id="editForm" novalidate style="display:grid;gap:12px">
     <div class="field"><label for="f-name">${t("f_name")}</label><input id="f-name" required maxlength="40" value="${esc(nm)}" placeholder="${t("ph_name")}"></div>
     <div class="two"><div class="field"><label for="f-amount">${t("f_amount")}</label><input id="f-amount" required inputmode="decimal" value="${d.amount===""?"":String(d.amount).replace(".",",")}" placeholder="0,00"></div>
       <div class="field"><label for="f-cur">${t("f_cur")}</label><select id="f-cur">${opt([["PLN","PLN"],["EUR","EUR"],["USD","USD"]],d.currency)}</select></div></div>
@@ -1190,10 +1196,10 @@ function openEdit(p,preset){
     <div class="actions"><button class="btn primary" type="submit">${isNew?t("b_add"):t("b_save")}</button><button type="button" class="btn soft" data-close>${t("cancel")}</button></div>
   </form>`);
   const f=root.querySelector("#editForm");
-  f.addEventListener("submit",e=>{ e.preventDefault();
+  f.addEventListener("submit",e=>{ e.preventDefault(); if(document.activeElement&&document.activeElement.blur) document.activeElement.blur();
     const amt=amountOf(f.querySelector("#f-amount")); if(amt==null) return;
     const nv=f.querySelector("#f-name").value.trim(), pf=f.querySelector("#f-payer");
-    const np={...d,name:(d.k&&nv===t("p_"+d.k))?null:nv,amount:amt,currency:f.querySelector("#f-cur").value,cycle:Number(f.querySelector("#f-cycle").value),date:f.querySelector("#f-date").value,cat:f.querySelector("#f-cat").value,payer:pf?pf.value:(d.payer||"m1"),since:f.querySelector("#f-since").value||f.querySelector("#f-date").value,remind:S.premium?Number(f.querySelector("#f-remind").value):1};
+    const np={...d,name:(d.k&&nv===t("p_"+d.k))?null:nv,amount:amt,currency:f.querySelector("#f-cur").value,cycle:Number(f.querySelector("#f-cycle").value),date:f.querySelector("#f-date").value||d.date||nextDay10(),cat:f.querySelector("#f-cat").value,payer:pf?pf.value:(d.payer||"m1"),since:f.querySelector("#f-since").value||f.querySelector("#f-date").value||d.since||iso(today()),remind:S.premium?Number(f.querySelector("#f-remind").value):1};
     if(isNew) S.items.push(np); else S.items[S.items.findIndex(x=>x.id===d.id)]=np;
     save(); render(); if(isNew){ closeSheet(); toast(t("t_add",{n:pname(np)})); track("payment_added",{category:np.cat,cycle:np.cycle,preset:!!np.k,currency:np.currency,count:S.items.length}); maybeExPrompt(); } else { openDetail(np.id); toast(t("t_saved")); }
   });
@@ -1203,7 +1209,7 @@ function openExpense(e){
   const isNew=!e;
   const d=e||{id:uid("e"),name:"",cat:"food",amount:"",date:iso(today()),payer:"m1"};
   openSheet(`<div style="display:flex;align-items:center;gap:12px">${tile({name:d.name,cat:d.cat})}<h3>${isNew?t("exp_new"):t("exp_edit")}</h3></div>
-  <form id="expForm" style="display:grid;gap:12px">
+  <form id="expForm" novalidate style="display:grid;gap:12px">
     <div class="field"><label for="x-name">${t("f_name")}</label><input id="x-name" required maxlength="40" value="${esc(d.name)}" placeholder="${t("ph_exp")}"></div>
     <div class="two"><div class="field"><label for="x-amount">${t("f_amount")}</label><input id="x-amount" required inputmode="decimal" value="${d.amount===""?"":String(d.amount).replace(".",",")}" placeholder="0,00"></div>
       <div class="field"><label for="x-date">${t("f_when")}</label><input id="x-date" type="date" required value="${d.date}"></div></div>
@@ -1214,7 +1220,7 @@ function openExpense(e){
   const f=root.querySelector("#expForm");
   f.addEventListener("submit",ev=>{ ev.preventDefault();
     const amt=amountOf(f.querySelector("#x-amount")); if(amt==null) return; const pf=f.querySelector("#x-payer");
-    const ne={...d,name:f.querySelector("#x-name").value.trim(),amount:amt,date:f.querySelector("#x-date").value,cat:f.querySelector("#x-cat").value,payer:pf?pf.value:(d.payer||"m1")};
+    const ne={...d,name:f.querySelector("#x-name").value.trim()||catName(f.querySelector("#x-cat").value),amount:amt,date:f.querySelector("#x-date").value||iso(today()),cat:f.querySelector("#x-cat").value,payer:pf?pf.value:(d.payer||"m1")};
     if(isNew) S.expenses.push(ne); else S.expenses[S.expenses.findIndex(x=>x.id===d.id)]=ne;
     save(); render(); closeSheet(); toast(isNew?t("t_exp_add",{n:ne.name}):t("t_saved")); if(isNew){ track("expense_added",{category:ne.cat,count:S.expenses.length}); maybeExPrompt(); } });
   const del=f.querySelector("#xDel");
@@ -1227,7 +1233,7 @@ function openExpense(e){
 let draftPhoto;
 function familyHTML(){
   const all=visible(), tot=all.reduce((a,p)=>a+monthly(p),0)||1;
-  const addForm=S.members.length<4?`<form id="pfMember" style="display:grid;gap:10px"><div class="field"><label for="pf-mem">${t("add_person")}</label><input id="pf-mem" maxlength="20" placeholder="${t("ph_person")}"></div><button class="btn soft" type="submit">${t("add")}</button></form>`:"";
+  const addForm=S.members.length<4?`<form id="pfMember" novalidate style="display:grid;gap:10px"><div class="field"><label for="pf-mem">${t("add_person")}</label><input id="pf-mem" maxlength="20" placeholder="${t("ph_person")}"></div><button class="btn soft" type="submit">${t("add")}</button></form>`:"";
   if(!hasPartner()) return `<section class="card glass" style="display:grid;gap:12px"><p style="margin:0;font-size:13.5px;color:var(--ink-2)">${t("fam_empty")}</p>${addForm}</section>`;
   const ms=S.members.map(m=>{ const s=all.filter(p=>p.payer===m.id).reduce((a,p)=>a+monthly(p),0), c=all.filter(p=>p.payer===m.id).length;
     const av=m.id==="m1"&&S.profile.photo?`<span class="av"><img src="${S.profile.photo}" alt=""></span>`:`<span class="av" style="background:${memberColor(m.id)}">${esc(initials(mname(m)))}</span>`;
@@ -1249,9 +1255,8 @@ function openProfile(scroll){
     <div class="pf-photo-actions"><label for="pfFile" class="btn soft small" style="cursor:pointer">${draftPhoto?t("photo_change"):t("photo_add")}</label>${draftPhoto?`<button type="button" class="btn danger small" id="pfDel">${t("photo_del")}</button>`:""}</div>
     <p class="hint">${t("photo_hint")}</p></div>
   <h4 class="pf-sec">${t("sec_account")}</h4>
-  <form id="pfForm" style="display:grid;gap:12px">
-    <div class="two"><div class="field"><label for="pf-name">${t("p_name")}</label><input id="pf-name" maxlength="24" value="${esc(pr.name)}"></div>
-      <div class="field"><label for="pf-home">${t("p_home")}</label><input id="pf-home" maxlength="30" value="${esc(pr.home)}" placeholder="${t("ph_home")}"></div></div>
+  <form id="pfForm" novalidate style="display:grid;gap:12px">
+    <div class="field"><label for="pf-name">${t("p_name")}</label><input id="pf-name" maxlength="24" value="${esc(pr.name)}"></div>
     <div class="field"><span style="font-size:12.5px;font-weight:600;color:var(--ink-2)">${t("language")}</span><div class="langseg" role="group">${LANGS.map(([c,s,n])=>`<button type="button" data-pflang="${c}" aria-pressed="${S.lang===c}">${n}</button>`).join("")}</div></div>
     <div class="field"><span style="font-size:12.5px;font-weight:600;color:var(--ink-2)">${t("theme")}</span><div class="langseg" role="group">${[["light",t("th_light")],["dark",t("th_dark")],["auto",t("th_auto")]].map(([v,l])=>`<button type="button" data-pftheme="${v}" aria-pressed="${pr.theme===v}">${l}</button>`).join("")}</div></div>
     <div class="field"><label for="pf-remind">${t("p_remind")}</label><select id="pf-remind">${REMIND_OPTS.map(v=>`<option value="${v}" ${v===pr.remind?"selected":""}>${remindLabel(v)}</option>`).join("")}</select></div>
@@ -1306,7 +1311,7 @@ function openProfile(scroll){
     if(k==="wipeYes"){ S.items=[]; S.expenses=[]; S.demo=false; save(); render(); closeSheet(); toast(t("t_wiped")); }
     if(k==="wipeNo") sh.querySelector("#pfWipe").innerHTML=""; });
 }
-function keepProfileDraft(sh){ const pr=S.profile, q=s=>sh.querySelector(s); if(!q("#pf-name")) return; pr.name=q("#pf-name").value.trim(); pr.home=q("#pf-home").value.trim(); pr.remind=Number(q("#pf-remind").value); pr.notif=q("#pf-notif").checked; pr.hide=q("#pf-hide").checked; pr.photo=draftPhoto||null; }
+function keepProfileDraft(sh){ const pr=S.profile, q=s=>sh.querySelector(s); if(!q("#pf-name")) return; pr.name=q("#pf-name").value.trim();  pr.remind=Number(q("#pf-remind").value); pr.notif=q("#pf-notif").checked; pr.hide=q("#pf-hide").checked; pr.photo=draftPhoto||null; }
 
 ["gesturestart","gesturechange","gestureend"].forEach(ev=>document.addEventListener(ev,e=>e.preventDefault(),{passive:false}));
 render();

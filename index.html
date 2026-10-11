@@ -16,7 +16,7 @@
 <script>
 /* ===== CONFIG: wklej tutaj swój klucz PostHog (Project API key, zaczyna się od phc_) ===== */
 window.CM_CONFIG = {
-  posthogKey: "phc_AzAKaGfacN2V5A5Ankr5A58UFmyE5h3pjNqu3cZGo8nR",                              // np. "phc_AbC123..."  (puste = statystyki wyłączone)
+  posthogKey: "",                              // np. "phc_AbC123..."  (puste = statystyki wyłączone)
   posthogHost: "https://eu.i.posthog.com",     // EU Cloud; dla US: https://us.i.posthog.com
   feedbackUrl: "https://t.me/deleniv",         // dokąd prowadzi „Napisz opinię”
   privacyUrl: "/privacy.html"
@@ -33,7 +33,7 @@ window.CM_CONFIG = {
   var s=document.createElement("script"); s.async=true; s.crossOrigin="anonymous";
   s.src=C.posthogHost.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js";
   s.onload=function(){ try{ window.posthog.init(C.posthogKey,{
-    api_host:C.posthogHost, persistence:"localStorage", person_profiles:"identified_only",
+    api_host:C.posthogHost, persistence:"localStorage", person_profiles:"always",
     autocapture:false, capture_pageview:true, capture_pageleave:true, disable_session_recording:true,
     loaded:function(ph){ if(!on) ph.opt_out_capturing(); ph.register({app:"co-miesiac",standalone:(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||navigator.standalone===true});
       ready=true; if(on) q.forEach(function(x){ ph.capture(x[0],x[1]); }); q=[]; } }); }catch(e){} };
@@ -434,6 +434,24 @@ a.btn{text-decoration:none}
 .app{padding-top:calc(6px + env(safe-area-inset-top,0px))}
 .top{margin-top:calc(-6px - env(safe-area-inset-top,0px));padding-top:calc(6px + env(safe-area-inset-top,0px))}
 .ob-hero{padding-top:calc(14px + env(safe-area-inset-top,0px))}
+.ob-hero.short{min-height:0;padding-bottom:18px}.ob-hero.short .ob-art{padding:4px 0 6px}.ob-hero.short .ob-logo{width:64px;height:64px;border-radius:22px}.ob-hero.short .ob-logo svg{width:30px;height:30px}
+.ob-chips{display:flex;flex-wrap:wrap;gap:8px}
+.ob-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border-radius:999px;background:rgba(255,255,255,.88);border:1.5px solid rgba(36,37,39,.06);font-weight:600;font-size:14.5px;color:var(--ink)}
+.ob-chip .tile{width:32px;height:32px}.ob-chip .tile svg{width:16px;height:16px}
+.ob-chip[aria-pressed="true"]{border-color:var(--b);background:#EEF0FF;color:var(--b)}
+.ob-chip:focus-visible,.ob-link:focus-visible{outline:2px solid var(--b);outline-offset:2px}
+.ob-link{background:none;border:0;color:var(--b);font-weight:600;font-size:14.5px;padding:8px}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.ob-rows{display:grid;gap:8px}
+.ob-row{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"ic main amt" "ic date date";gap:6px 12px;align-items:center;padding:12px 14px;border-radius:20px;background:rgba(255,255,255,.88)}
+.ob-row .tile{grid-area:ic;align-self:start}.ob-row-main{grid-area:main;min-width:0}.ob-row-main b{display:block;font-size:15px}.ob-row-main small{font-size:12.5px;color:var(--ink-3)}
+.ob-in-amt{grid-area:amt;display:flex;align-items:center;gap:4px;background:#F2F3F8;border-radius:12px;padding:0 10px}
+.ob-in-amt input{width:84px;border:0;background:none;padding:10px 0;font:600 16px var(--f-num);text-align:right;color:var(--ink)}.ob-in-amt i{font-style:normal;color:var(--ink-3);font-size:13px}
+.ob-in-date{grid-area:date;display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:12.5px;color:var(--ink-3)}
+.ob-in-date input{border:0;background:#F2F3F8;border-radius:10px;padding:7px 10px;font-size:14px;color:var(--ink)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+body.dark .ob-chip,body.dark .ob-row{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.08)}body.dark .ob-chip[aria-pressed="true"]{background:rgba(135,145,255,.16);color:#C9CEFF}
+body.dark .ob-in-amt,body.dark .ob-in-date input{background:rgba(255,255,255,.08)}
 </style>
 
 <div class="ambient" aria-hidden="true"></div>
@@ -458,7 +476,7 @@ pl:{
  demo:"Przykładowe dane. Edytuj je albo wyczyść.",clear:"Wyczyść",
  pay_m:"Płacisz co miesiąc",pay_y:"Płacisz co rok",
  fixed:"Stałe wydatki · {p}",per_m:"miesięcznie",per_y:"rocznie",monthly:"Miesięcznie",yearly:"Rocznie",
- n_fixed:"{n} stałych opłat",add:"Dodaj",in30:"Do zapłaty w 30 dni",avg_day:"Średnio dziennie",inst_h:"Dodaj aplikację na ekran główny",inst_t:"Będzie się otwierać jak zwykła aplikacja, na pełnym ekranie. Na iPhonie to też chroni Twoje dane: Safari może je usunąć, jeśli przez 7 dni nie otworzysz strony.",inst_ios1:"Stuknij Udostępnij na dole Safari",inst_ios2:"Przewiń i wybierz „Do ekranu początkowego”",inst_ios3:"Stuknij „Dodaj” w prawym górnym rogu",inst_and1:"Otwórz menu przeglądarki ⋮",inst_and2:"Wybierz „Zainstaluj aplikację” lub „Dodaj do ekranu głównego”",inst_and3:"Potwierdź",inst_desk:"Otwórz ten adres na telefonie i dodaj aplikację na ekran główny.",inst_btn:"Zainstaluj",inst_later:"Później",inst_done:"Gotowe",sec_help:"Pomoc",fb:"Napisz opinię",fb_t:"Co działa, co nie, czego brakuje",fb_open:"Napisz",priv:"Prywatność",priv_t:"Jakie dane zbieramy",priv_open:"Otwórz",inst_row:"Ekran główny",inst_row_t:"Dodaj jak zwykłą aplikację",inst_show:"Jak dodać",an:"Anonimowe statystyki",an_t:"Bez kwot i nazw płatności. Pomaga ulepszać aplikację.",ob_stats:"Zbieramy anonimowe statystyki użycia, bez kwot i nazw płatności. Wyłączysz je w profilu.",t_installed:"Aplikacja zainstalowana",ob_next:"Dalej",ob_skip:"Pomiń",ob_back:"Wstecz",ob1_h:"Wszystkie opłaty w jednym miejscu",ob1_t:"Czynsz, media, telefon, OC, subskrypcje i codzienne wydatki. Od razu widzisz, ile naprawdę kosztuje miesiąc.",ob2_h:"Przypomnimy, zanim zapłacisz",ob2_t:"Powiadomienie przed każdą płatnością. Przy subskrypcjach zapytamy, czy jeszcze z nich korzystasz, i policzymy, ile możesz zaoszczędzić.",ob3_h:"Zaczynamy",ob_name:"Jak masz na imię?",ob_ph:"np. Ania",ob_demo:"Z przykładowymi danymi",ob_demo_t:"Zobacz, jak to działa. Wyczyścisz jednym kliknięciem.",ob_empty:"Od zera",ob_empty_t:"Dodasz swoje płatności samodzielnie.",ob_go:"Zaczynamy",ob_replay:"Wprowadzenie",ob_replay_t:"Pokaż ekrany powitalne jeszcze raz",ob_show:"Pokaż",ask_q:"Korzystasz z tej subskrypcji?",ask_yes:"Tak, korzystam",ask_no:"Nie używam",t_unused:"Zapisano. Możesz zaoszczędzić {x} rocznie",t_used:"Dzięki, zapytam przy następnej płatności",chk_val:"Sprawdź",chk_sub:"czego nie używasz",pay_month:"Płatności · {m}",paid_left:"Zapłacone {a} · zostało {b}",n_days:"za {n} dni",top_cat:"Najwięcej na",n_pay:"{n} płatności",all_payments_lc:"wszystkie opłaty",
+ n_fixed:"{n} stałych opłat",add:"Dodaj",in30:"Do zapłaty w 30 dni",avg_day:"Średnio dziennie",ob4_h:"Co płacisz regularnie?",ob4_t:"Zaznacz wszystko, co pasuje. Kwoty wpiszesz za chwilę.",ob_n_sel:"Dalej · {n}",ob_pick_min:"Zaznacz przynajmniej jedną",ob_demo_link:"Najpierw pokaż przykład",ob5_h:"Kwoty i terminy",ob5_t:"Ile płacisz i kiedy jest najbliższa płatność. Wszystko zmienisz później.",ob_amount:"Kwota",ob_when:"Najbliższa",ob_name_opt:"Jak masz na imię? (opcjonalnie)",ob_need:"Wpisz kwotę przynajmniej jednej płatności",ob_more:"Pozostałe płatności dodasz później przyciskiem +",ex_q:"Usunąć przykładowe dane?",ex_t:"Dodano Twoją pierwszą płatność. Zostaw tylko swoje dane, żeby liczby były prawdziwe.",ex_yes:"Tak, usuń przykład",ex_no:"Później",t_ex_removed:"Przykład usunięty. Widzisz tylko swoje dane.",inst_h:"Dodaj aplikację na ekran główny",inst_t:"Będzie się otwierać jak zwykła aplikacja, na pełnym ekranie. Na iPhonie to też chroni Twoje dane: Safari może je usunąć, jeśli przez 7 dni nie otworzysz strony.",inst_ios1:"Stuknij Udostępnij na dole Safari",inst_ios2:"Przewiń i wybierz „Do ekranu początkowego”",inst_ios3:"Stuknij „Dodaj” w prawym górnym rogu",inst_and1:"Otwórz menu przeglądarki ⋮",inst_and2:"Wybierz „Zainstaluj aplikację” lub „Dodaj do ekranu głównego”",inst_and3:"Potwierdź",inst_desk:"Otwórz ten adres na telefonie i dodaj aplikację na ekran główny.",inst_btn:"Zainstaluj",inst_later:"Później",inst_done:"Gotowe",sec_help:"Pomoc",fb:"Napisz opinię",fb_t:"Co działa, co nie, czego brakuje",fb_open:"Napisz",priv:"Prywatność",priv_t:"Jakie dane zbieramy",priv_open:"Otwórz",inst_row:"Ekran główny",inst_row_t:"Dodaj jak zwykłą aplikację",inst_show:"Jak dodać",an:"Anonimowe statystyki",an_t:"Bez kwot i nazw płatności. Pomaga ulepszać aplikację.",ob_stats:"Zbieramy anonimowe statystyki użycia, bez kwot i nazw płatności. Wyłączysz je w profilu.",t_installed:"Aplikacja zainstalowana",ob_next:"Dalej",ob_skip:"Pomiń",ob_back:"Wstecz",ob1_h:"Wszystkie opłaty w jednym miejscu",ob1_t:"Czynsz, media, telefon, OC, subskrypcje i codzienne wydatki. Od razu widzisz, ile naprawdę kosztuje miesiąc.",ob2_h:"Przypomnimy, zanim zapłacisz",ob2_t:"Powiadomienie przed każdą płatnością. Przy subskrypcjach zapytamy, czy jeszcze z nich korzystasz, i policzymy, ile możesz zaoszczędzić.",ob3_h:"Zaczynamy",ob_name:"Jak masz na imię?",ob_ph:"np. Ania",ob_demo:"Z przykładowymi danymi",ob_demo_t:"Zobacz, jak to działa. Wyczyścisz jednym kliknięciem.",ob_empty:"Od zera",ob_empty_t:"Dodasz swoje płatności samodzielnie.",ob_go:"Zaczynamy",ob_replay:"Wprowadzenie",ob_replay_t:"Pokaż ekrany powitalne jeszcze raz",ob_show:"Pokaż",ask_q:"Korzystasz z tej subskrypcji?",ask_yes:"Tak, korzystam",ask_no:"Nie używam",t_unused:"Zapisano. Możesz zaoszczędzić {x} rocznie",t_used:"Dzięki, zapytam przy następnej płatności",chk_val:"Sprawdź",chk_sub:"czego nie używasz",pay_month:"Płatności · {m}",paid_left:"Zapłacone {a} · zostało {b}",n_days:"za {n} dni",top_cat:"Najwięcej na",n_pay:"{n} płatności",all_payments_lc:"wszystkie opłaty",
  recover:"Do odzyskania",recover_sub:"rocznie · {n} nieużywane",all_used:"wszystko w użyciu",trial:"Okres próbny",ends:"kończy się {r}",
  whole:"Wszystkie płatności",calendar:"Kalendarz",stats:"Analiza",family:"Rodzina",
  upcoming:"Najbliższe płatności",see_all:"Wszystkie",first:"Dodaj pierwszą płatność przyciskiem +.",
@@ -504,7 +522,7 @@ uk:{
  demo:"Приклад даних. Змініть їх або очистіть.",clear:"Очистити",
  pay_m:"Щомісяця ви платите",pay_y:"Щороку ви платите",
  fixed:"Регулярні витрати · {p}",per_m:"на місяць",per_y:"на рік",monthly:"На місяць",yearly:"На рік",
- n_fixed:"Регулярних платежів: {n}",add:"Додати",in30:"До сплати за 30 днів",avg_day:"У середньому за день",inst_h:"Додайте застосунок на головний екран",inst_t:"Він відкриватиметься як звичайний застосунок, на весь екран. На iPhone це ще й береже ваші дані: Safari може їх видалити, якщо 7 днів не відкривати сторінку.",inst_ios1:"Торкніться «Поділитися» внизу Safari",inst_ios2:"Прокрутіть і виберіть «На початковий екран»",inst_ios3:"Торкніться «Додати» вгорі праворуч",inst_and1:"Відкрийте меню браузера ⋮",inst_and2:"Виберіть «Установити застосунок» або «Додати на головний екран»",inst_and3:"Підтвердьте",inst_desk:"Відкрийте цю адресу на телефоні й додайте застосунок на головний екран.",inst_btn:"Установити",inst_later:"Пізніше",inst_done:"Готово",sec_help:"Допомога",fb:"Написати відгук",fb_t:"Що працює, що ні, чого бракує",fb_open:"Написати",priv:"Конфіденційність",priv_t:"Які дані ми збираємо",priv_open:"Відкрити",inst_row:"Головний екран",inst_row_t:"Додати як звичайний застосунок",inst_show:"Як додати",an:"Анонімна статистика",an_t:"Без сум і назв платежів. Допомагає покращувати застосунок.",ob_stats:"Збираємо анонімну статистику використання, без сум і назв платежів. Вимкнути можна в профілі.",t_installed:"Застосунок установлено",ob_next:"Далі",ob_skip:"Пропустити",ob_back:"Назад",ob1_h:"Усі платежі в одному місці",ob1_t:"Оренда, комуналка, телефон, OC, підписки і щоденні витрати. Одразу видно, скільки насправді коштує місяць.",ob2_h:"Нагадаємо, перш ніж заплатите",ob2_t:"Сповіщення перед кожним платежем. Щодо підписок запитаємо, чи ви ще ними користуєтесь, і порахуємо, скільки можна заощадити.",ob3_h:"Починаємо",ob_name:"Як вас звати?",ob_ph:"напр. Оля",ob_demo:"З прикладом",ob_demo_t:"Подивіться, як усе працює. Очистите одним натиском.",ob_empty:"З нуля",ob_empty_t:"Додасте свої платежі самі.",ob_go:"Почати",ob_replay:"Вступ",ob_replay_t:"Показати вітальні екрани ще раз",ob_show:"Показати",ask_q:"Користуєтесь цією підпискою?",ask_yes:"Так, користуюсь",ask_no:"Не використовую",t_unused:"Збережено. Можна заощадити {x} на рік",t_used:"Дякую, запитаю перед наступною оплатою",chk_val:"Перевірте",chk_sub:"що не використовуєте",pay_month:"Платежі · {m}",paid_left:"Сплачено {a} · залишилось {b}",n_days:"за {n} днів",top_cat:"Найбільше на",n_pay:"{n} платежів",all_payments_lc:"усі платежі",
+ n_fixed:"Регулярних платежів: {n}",add:"Додати",in30:"До сплати за 30 днів",avg_day:"У середньому за день",ob4_h:"Що ви платите регулярно?",ob4_t:"Позначте все, що підходить. Суми введете за хвилину.",ob_n_sel:"Далі · {n}",ob_pick_min:"Позначте хоча б один",ob_demo_link:"Спершу показати приклад",ob5_h:"Суми й дати",ob5_t:"Скільки платите і коли найближчий платіж. Усе можна змінити пізніше.",ob_amount:"Сума",ob_when:"Найближчий",ob_name_opt:"Як вас звати? (необов'язково)",ob_need:"Введіть суму хоча б одного платежу",ob_more:"Інші платежі додасте пізніше кнопкою +",ex_q:"Видалити приклад?",ex_t:"Ви додали свій перший платіж. Залиште тільки свої дані, щоб цифри були справжні.",ex_yes:"Так, видалити приклад",ex_no:"Пізніше",t_ex_removed:"Приклад видалено. Тепер тут тільки ваші дані.",inst_h:"Додайте застосунок на головний екран",inst_t:"Він відкриватиметься як звичайний застосунок, на весь екран. На iPhone це ще й береже ваші дані: Safari може їх видалити, якщо 7 днів не відкривати сторінку.",inst_ios1:"Торкніться «Поділитися» внизу Safari",inst_ios2:"Прокрутіть і виберіть «На початковий екран»",inst_ios3:"Торкніться «Додати» вгорі праворуч",inst_and1:"Відкрийте меню браузера ⋮",inst_and2:"Виберіть «Установити застосунок» або «Додати на головний екран»",inst_and3:"Підтвердьте",inst_desk:"Відкрийте цю адресу на телефоні й додайте застосунок на головний екран.",inst_btn:"Установити",inst_later:"Пізніше",inst_done:"Готово",sec_help:"Допомога",fb:"Написати відгук",fb_t:"Що працює, що ні, чого бракує",fb_open:"Написати",priv:"Конфіденційність",priv_t:"Які дані ми збираємо",priv_open:"Відкрити",inst_row:"Головний екран",inst_row_t:"Додати як звичайний застосунок",inst_show:"Як додати",an:"Анонімна статистика",an_t:"Без сум і назв платежів. Допомагає покращувати застосунок.",ob_stats:"Збираємо анонімну статистику використання, без сум і назв платежів. Вимкнути можна в профілі.",t_installed:"Застосунок установлено",ob_next:"Далі",ob_skip:"Пропустити",ob_back:"Назад",ob1_h:"Усі платежі в одному місці",ob1_t:"Оренда, комуналка, телефон, OC, підписки і щоденні витрати. Одразу видно, скільки насправді коштує місяць.",ob2_h:"Нагадаємо, перш ніж заплатите",ob2_t:"Сповіщення перед кожним платежем. Щодо підписок запитаємо, чи ви ще ними користуєтесь, і порахуємо, скільки можна заощадити.",ob3_h:"Починаємо",ob_name:"Як вас звати?",ob_ph:"напр. Оля",ob_demo:"З прикладом",ob_demo_t:"Подивіться, як усе працює. Очистите одним натиском.",ob_empty:"З нуля",ob_empty_t:"Додасте свої платежі самі.",ob_go:"Почати",ob_replay:"Вступ",ob_replay_t:"Показати вітальні екрани ще раз",ob_show:"Показати",ask_q:"Користуєтесь цією підпискою?",ask_yes:"Так, користуюсь",ask_no:"Не використовую",t_unused:"Збережено. Можна заощадити {x} на рік",t_used:"Дякую, запитаю перед наступною оплатою",chk_val:"Перевірте",chk_sub:"що не використовуєте",pay_month:"Платежі · {m}",paid_left:"Сплачено {a} · залишилось {b}",n_days:"за {n} днів",top_cat:"Найбільше на",n_pay:"{n} платежів",all_payments_lc:"усі платежі",
  recover:"Можна повернути",recover_sub:"на рік · {n} не використовуються",all_used:"усе використовується",trial:"Пробний період",ends:"закінчується {r}",
  whole:"Усі платежі",calendar:"Календар",stats:"Аналітика",family:"Родина",
  upcoming:"Найближчі платежі",see_all:"Усі",first:"Додайте перший платіж кнопкою +.",
@@ -549,7 +567,7 @@ en:{
  demo:"Sample data. Edit it or clear it.",clear:"Clear",
  pay_m:"You pay every month",pay_y:"You pay every year",
  fixed:"Fixed costs · {p}",per_m:"monthly",per_y:"yearly",monthly:"Monthly",yearly:"Yearly",
- n_fixed:"{n} recurring payments",add:"Add",in30:"Due in 30 days",avg_day:"Daily average",inst_h:"Add the app to your home screen",inst_t:"It will open like a regular app, full screen. On iPhone it also keeps your data safe: Safari may delete it if you don't open the page for 7 days.",inst_ios1:"Tap Share at the bottom of Safari",inst_ios2:"Scroll and choose “Add to Home Screen”",inst_ios3:"Tap “Add” in the top right",inst_and1:"Open the browser menu ⋮",inst_and2:"Choose “Install app” or “Add to Home screen”",inst_and3:"Confirm",inst_desk:"Open this address on your phone and add the app to your home screen.",inst_btn:"Install",inst_later:"Later",inst_done:"Done",sec_help:"Help",fb:"Send feedback",fb_t:"What works, what doesn't, what's missing",fb_open:"Write",priv:"Privacy",priv_t:"What data we collect",priv_open:"Open",inst_row:"Home screen",inst_row_t:"Add it like a regular app",inst_show:"How to",an:"Anonymous usage stats",an_t:"No amounts or payment names. Helps improve the app.",ob_stats:"We collect anonymous usage stats, with no amounts or payment names. You can turn this off in your profile.",t_installed:"App installed",ob_next:"Next",ob_skip:"Skip",ob_back:"Back",ob1_h:"All your bills in one place",ob1_t:"Rent, utilities, phone, car insurance, subscriptions and everyday spending. See what a month really costs at a glance.",ob2_h:"We'll remind you before you pay",ob2_t:"A heads-up before every payment. For subscriptions we'll ask if you still use them and show how much you could save.",ob3_h:"Let's start",ob_name:"What's your name?",ob_ph:"e.g. Anna",ob_demo:"With sample data",ob_demo_t:"See how it works. Clear it in one tap.",ob_empty:"From scratch",ob_empty_t:"Add your own payments yourself.",ob_go:"Get started",ob_replay:"Intro",ob_replay_t:"Show the welcome screens again",ob_show:"Show",ask_q:"Still using this subscription?",ask_yes:"Yes, I use it",ask_no:"Not using",t_unused:"Saved. You could save {x} a year",t_used:"Thanks, I'll ask before the next charge",chk_val:"Review",chk_sub:"what you don't use",pay_month:"Payments · {m}",paid_left:"Paid {a} · {b} left",n_days:"over {n} days",top_cat:"Top category",n_pay:"{n} payments",all_payments_lc:"all payments",
+ n_fixed:"{n} recurring payments",add:"Add",in30:"Due in 30 days",avg_day:"Daily average",ob4_h:"What do you pay regularly?",ob4_t:"Tick everything that applies. You'll add amounts next.",ob_n_sel:"Next · {n}",ob_pick_min:"Pick at least one",ob_demo_link:"Show me an example first",ob5_h:"Amounts and dates",ob5_t:"How much you pay and when the next payment is. You can change it all later.",ob_amount:"Amount",ob_when:"Next payment",ob_name_opt:"What's your name? (optional)",ob_need:"Enter the amount for at least one payment",ob_more:"Add other payments later with the + button",ex_q:"Remove the sample data?",ex_t:"You added your first payment. Keep only your own data so the numbers are real.",ex_yes:"Yes, remove sample",ex_no:"Later",t_ex_removed:"Sample removed. Only your data now.",inst_h:"Add the app to your home screen",inst_t:"It will open like a regular app, full screen. On iPhone it also keeps your data safe: Safari may delete it if you don't open the page for 7 days.",inst_ios1:"Tap Share at the bottom of Safari",inst_ios2:"Scroll and choose “Add to Home Screen”",inst_ios3:"Tap “Add” in the top right",inst_and1:"Open the browser menu ⋮",inst_and2:"Choose “Install app” or “Add to Home screen”",inst_and3:"Confirm",inst_desk:"Open this address on your phone and add the app to your home screen.",inst_btn:"Install",inst_later:"Later",inst_done:"Done",sec_help:"Help",fb:"Send feedback",fb_t:"What works, what doesn't, what's missing",fb_open:"Write",priv:"Privacy",priv_t:"What data we collect",priv_open:"Open",inst_row:"Home screen",inst_row_t:"Add it like a regular app",inst_show:"How to",an:"Anonymous usage stats",an_t:"No amounts or payment names. Helps improve the app.",ob_stats:"We collect anonymous usage stats, with no amounts or payment names. You can turn this off in your profile.",t_installed:"App installed",ob_next:"Next",ob_skip:"Skip",ob_back:"Back",ob1_h:"All your bills in one place",ob1_t:"Rent, utilities, phone, car insurance, subscriptions and everyday spending. See what a month really costs at a glance.",ob2_h:"We'll remind you before you pay",ob2_t:"A heads-up before every payment. For subscriptions we'll ask if you still use them and show how much you could save.",ob3_h:"Let's start",ob_name:"What's your name?",ob_ph:"e.g. Anna",ob_demo:"With sample data",ob_demo_t:"See how it works. Clear it in one tap.",ob_empty:"From scratch",ob_empty_t:"Add your own payments yourself.",ob_go:"Get started",ob_replay:"Intro",ob_replay_t:"Show the welcome screens again",ob_show:"Show",ask_q:"Still using this subscription?",ask_yes:"Yes, I use it",ask_no:"Not using",t_unused:"Saved. You could save {x} a year",t_used:"Thanks, I'll ask before the next charge",chk_val:"Review",chk_sub:"what you don't use",pay_month:"Payments · {m}",paid_left:"Paid {a} · {b} left",n_days:"over {n} days",top_cat:"Top category",n_pay:"{n} payments",all_payments_lc:"all payments",
  recover:"Recoverable",recover_sub:"a year · {n} unused",all_used:"all in use",trial:"Free trial",ends:"ends {r}",
  whole:"All payments",calendar:"Calendar",stats:"Insights",family:"Family",
  upcoming:"Upcoming payments",see_all:"See all",first:"Add your first payment with the + button.",
@@ -664,7 +682,8 @@ const REMIND_OPTS=[-1,0,1,2,3,7,14,21,30];
 const REC_CATS=["dom","media","telefon","auto","ubezp","rozrywka","chmura","zdrowie","inne"];
 const EXP_CATS=["food","eatout","transport","shopping","zdrowie","rozrywka","inne"];
 function dayInMonth(back){ const x=today(); return iso(new Date(x.getFullYear(),x.getMonth(),Math.max(1,x.getDate()-back))); }
-function sample(lang,profile){
+function sample(lang,profile){ const o=sampleRaw(lang,profile); o.items.forEach(i=>i.ex=true); o.expenses.forEach(x=>x.ex=true); return o; }
+function sampleRaw(lang,profile){
   return {lang, demo:true, premium:true, period:"m", member:"all", filter:"all", listTab:"subs", calY:null, calM:null, calSel:null,
     profile:profile||{name:"Andrii",home:"",photo:null,remind:2,notif:true,hide:false,theme:"light"},
     members:[{id:"m1",k:"me"}],
@@ -917,49 +936,73 @@ function maybeInstall(){ if(!isStandalone()&&!S.installSeen&&!window.__CM_VARIAN
 const FEEDBACK_URL=CFG.feedbackUrl||"https://t.me/deleniv";
 
 /* ---------- onboarding ---------- */
-let obStep=0, obChoice="demo";
+let obStep=0, obPicks=[], obVals={};
+const OB_STEPS=5;
+const QUICK=[["rent","dom",1],["mortgage","dom",1],["power","media",2],["gas","media",2],["internet","telefon",1],["phone","telefon",1],["oc","auto",12],["homeins","ubezp",12],["netflix","rozrywka",1],["spotify","rozrywka",1],["youtube","rozrywka",1],["max","rozrywka",1],["icloud","chmura",1],["gym","zdrowie",1]];
 const LANG_OPTS=[["pl","Polski","Polish · polski"],["uk","Українська","Ukrainian · ukraiński"],["en","English","English · angielski"]];
+function nextDay10(){ const x=today(); let d=new Date(x.getFullYear(),x.getMonth(),10); if(d<x) d=new Date(x.getFullYear(),x.getMonth()+1,10); return iso(d); }
 function obArt(){
   if(obStep===0) return `<div class="ob-logo">${svg(ICONS.home,1.8)}</div>`;
   if(obStep===1){ const m=(k,c,a)=>`<div class="ob-mini">${tile({k,cat:c})}<b>${esc(t("p_"+k))}</b><span class="num">${a} zł</span></div>`;
     return `<div class="ob-stack">${m("rent","dom","650")}${m("power","media","184")}${m("netflix","rozrywka","49")}</div>`; }
   if(obStep===2) return `<div style="display:grid;justify-items:center;width:100%"><div class="ob-askmini"><div class="top-l">${tile({k:"netflix",cat:"rozrywka"})}<div><small>${(w=>w.charAt(0).toUpperCase()+w.slice(1))(t("tomorrow"))} · 49,00 zł</small><b>Netflix</b></div></div><p>${t("ask_q")}</p><div class="ab"><span>${t("ask_yes")}</span><span>${t("ask_no")}</span></div></div><span class="ob-save">${svg(UI.arrowDown,2.2)}${t("can_save")}: 588 zł ${t("per_y")}</span></div>`;
+  if(obStep===3) return `<div class="ob-logo">${svg(UI.list,2.1)}</div>`;
   return `<div class="ob-logo">${svg(UI.check,2.2)}</div>`;
 }
 function obBody(){
-  const dots=`<div class="ob-dots" aria-hidden="true">${[0,1,2,3].map(i=>`<i class="${i===obStep?"on":""}"></i>`).join("")}</div>`;
+  const dots=`<div class="ob-dots" aria-hidden="true">${Array.from({length:OB_STEPS},(_,i)=>`<i class="${i===obStep?"on":""}"></i>`).join("")}</div>`;
   if(obStep===0) return `${dots}<h1>Wybierz język<br><span style="color:var(--ink-3);font-size:.62em;font-weight:600">Оберіть мову · Choose language</span></h1>
     <div class="ob-langs" role="group">${LANG_OPTS.map(([c,n,sub])=>`<button type="button" class="ob-opt" data-oblang="${c}" aria-pressed="${S.lang===c}"><span class="code">${c==="uk"?"UA":c.toUpperCase()}</span><span class="main"><b>${n}</b><small>${sub}</small></span><span class="rad"></span></button>`).join("")}</div>
     <div class="ob-foot"><button type="button" class="btn primary" data-ob="next">${t("ob_next")} ${svg(UI.chev,2.4)}</button></div>`;
   if(obStep<3) return `${dots}<h1>${t("ob"+obStep+"_h")}</h1><p class="lead">${t("ob"+obStep+"_t")}</p>
     <div class="ob-foot"><button type="button" class="btn primary" data-ob="next">${t("ob_next")} ${svg(UI.chev,2.4)}</button></div>`;
-  const opt=(k,h,sub,ic)=>`<button type="button" class="ob-opt" data-obchoice="${k}" aria-pressed="${obChoice===k}"><span class="code">${svg(ic,2)}</span><span class="main"><b>${h}</b><small>${sub}</small></span><span class="rad"></span></button>`;
-  return `${dots}<h1>${t("ob3_h")}</h1>
-    <div class="field"><label for="ob-name">${t("ob_name")}</label><input id="ob-name" maxlength="20" autocomplete="given-name" placeholder="${t("ob_ph")}" value="${esc(S.profile.name||"")}"></div>
-    <div class="ob-langs" role="group">${opt("demo",t("ob_demo"),t("ob_demo_t"),UI.repeat)}${opt("empty",t("ob_empty"),t("ob_empty_t"),UI.plus)}</div>
+  if(obStep===3) return `${dots}<h1>${t("ob4_h")}</h1><p class="lead">${t("ob4_t")}</p>
+    <div class="ob-chips" role="group">${QUICK.map(([k,c])=>`<button type="button" class="ob-chip" data-obpick="${k}" aria-pressed="${obPicks.includes(k)}">${tile({k,cat:c})}<span>${esc(t("p_"+k))}</span></button>`).join("")}</div>
+    <div class="ob-foot"><button type="button" class="btn primary" data-ob="next" ${obPicks.length?"":"disabled"}>${obPicks.length?t("ob_n_sel",{n:obPicks.length}):t("ob_pick_min")} ${obPicks.length?svg(UI.chev,2.4):""}</button><button type="button" class="ob-link" data-ob="demo">${t("ob_demo_link")}</button></div>`;
+  const rows=obPicks.map(k=>{ const q=QUICK.find(x=>x[0]===k), v=obVals[k]||{}; return `<div class="ob-row" data-k="${k}">${tile({k,cat:q[1]})}<div class="ob-row-main"><b>${esc(t("p_"+k))}</b><small>${cyc(q[2])}</small></div>
+      <label class="ob-in-amt"><span class="sr">${t("ob_amount")}</span><input inputmode="decimal" placeholder="0,00" data-amt value="${esc(v.amount||"")}" aria-label="${t("ob_amount")} · ${esc(t("p_"+k))}"><i>zł</i></label>
+      <label class="ob-in-date"><span>${t("ob_when")}</span><input type="date" data-date value="${v.date||nextDay10()}" aria-label="${t("ob_when")} · ${esc(t("p_"+k))}"></label></div>`; }).join("");
+  return `${dots}<h1>${t("ob5_h")}</h1><p class="lead">${t("ob5_t")}</p>
+    <div class="ob-rows">${rows}</div>
+    <div class="field"><label for="ob-name">${t("ob_name_opt")}</label><input id="ob-name" maxlength="20" autocomplete="given-name" placeholder="${t("ob_ph")}" value="${esc(S.profile.name||"")}"></div>
+    <p style="margin:0 2px;font-size:12.5px;color:var(--ink-3)">${t("ob_more")}</p>
     <div class="ob-foot"><p style="margin:0 2px;font-size:12px;line-height:1.45;color:var(--ink-3)">${t("ob_stats")}</p><button type="button" class="btn primary" data-ob="go">${t("ob_go")}</button></div>`;
 }
+function obCapture(el){ const nm=el.querySelector("#ob-name"); if(nm) S.profile.name=nm.value.trim();
+  el.querySelectorAll(".ob-row").forEach(r=>{ obVals[r.dataset.k]={amount:r.querySelector("[data-amt]").value.trim(),date:r.querySelector("[data-date]").value}; }); }
 function renderOnb(){
   document.body.classList.add("onb");
   let el=document.getElementById("onb"); if(!el){ el=document.createElement("div"); el.id="onb"; el.className="ob"; el.setAttribute("role","dialog"); el.setAttribute("aria-modal","true"); document.body.appendChild(el); bindOnb(el); }
-  const nm=el.querySelector("#ob-name"); if(nm) S.profile.name=nm.value.trim();
-  el.innerHTML=`<div class="ob-in"><div class="ob-hero"><div class="ob-bar">${obStep>0?`<button type="button" class="ob-backbtn" data-ob="back" aria-label="${t("ob_back")}">${svg(UI.chevL,2.4)}</button>`:`<span class="ob-brand">DeSave</span>`}${obStep===1||obStep===2?`<button type="button" data-ob="skip">${t("ob_skip")}</button>`:""}</div><div class="ob-art">${obArt()}</div></div><div class="ob-body">${obBody()}</div></div>`;
+  obCapture(el);
+  el.innerHTML=`<div class="ob-in"><div class="ob-hero${obStep>=3?" short":""}"><div class="ob-bar">${obStep>0?`<button type="button" class="ob-backbtn" data-ob="back" aria-label="${t("ob_back")}">${svg(UI.chevL,2.4)}</button>`:`<span class="ob-brand">DeSave</span>`}${obStep===1||obStep===2?`<button type="button" data-ob="skip">${t("ob_skip")}</button>`:""}</div><div class="ob-art">${obArt()}</div></div><div class="ob-body">${obBody()}</div></div>`;
   el.scrollTop=0;
+}
+function finishOnb(el,mode,extra){
+  S.onboarded=true; tab="home"; save(); el.remove(); document.body.classList.remove("onb"); render(); window.scrollTo(0,0);
+  track("onboarding_completed",Object.assign({choice:mode,has_name:!!S.profile.name},extra||{})); maybeInstall();
 }
 function bindOnb(el){
   el.addEventListener("click",e=>{
     const l=e.target.closest("[data-oblang]"); if(l){ S.lang=l.dataset.oblang; track("language_chosen",{where:"onboarding"}); save(); document.documentElement.lang=S.lang; renderOnb(); return; }
-    const c=e.target.closest("[data-obchoice]"); if(c){ obChoice=c.dataset.obchoice; renderOnb(); return; }
-    const b=e.target.closest("[data-ob]"); if(!b) return; const k=b.dataset.ob;
-    if(k==="next"){ obStep=Math.min(3,obStep+1); track("onboarding_step",{step:obStep}); renderOnb(); }
+    const pk=e.target.closest("[data-obpick]"); if(pk){ const k=pk.dataset.obpick; obPicks=obPicks.includes(k)?obPicks.filter(x=>x!==k):[...obPicks,k]; const y=el.scrollTop; renderOnb(); el.scrollTop=y; return; }
+    const b=e.target.closest("[data-ob]"); if(!b||b.disabled) return; const k=b.dataset.ob;
+    if(k==="next"){ if(obStep===3) track("onboarding_picks",{n:obPicks.length,keys:obPicks.join(",")}); obStep=Math.min(OB_STEPS-1,obStep+1); track("onboarding_step",{step:obStep}); renderOnb(); }
     else if(k==="back"){ obStep=Math.max(0,obStep-1); renderOnb(); }
     else if(k==="skip"){ track("onboarding_skipped",{from:obStep}); obStep=3; renderOnb(); }
-    else if(k==="go"){ const nm=el.querySelector("#ob-name"); const name=nm?nm.value.trim():"";
-      if(obChoice==="empty"){ S.items=[]; S.expenses=[]; S.demo=false; } else if(!S.items.length){ const keep={lang:S.lang,profile:S.profile}; S=sample(keep.lang,keep.profile); }
-      S.profile.name=name; S.onboarded=true; tab="home"; save(); el.remove(); document.body.classList.remove("onb"); render(); window.scrollTo(0,0);
-      track("onboarding_completed",{choice:obChoice,has_name:!!name}); maybeInstall(); }
+    else if(k==="demo"){ obCapture(el); const keep={lang:S.lang,profile:S.profile}; S=sample(keep.lang,keep.profile); finishOnb(el,"demo"); }
+    else if(k==="go"){ obCapture(el);
+      const items=[]; obPicks.forEach(key=>{ const q=QUICK.find(x=>x[0]===key), v=obVals[key]||{}; const amt=parseFloat(String(v.amount||"").replace(/\s/g,"").replace(",","."));
+        if(amt>0) items.push({id:uid("p"),k:key,name:null,cat:q[1],amount:Math.round(amt*100)/100,currency:"PLN",cycle:q[2],date:v.date||nextDay10(),since:iso(today()),payer:"m1",remind:q[2]>=12?14:(S.profile.remind>=0?S.profile.remind:2)}); });
+      if(!items.length){ toast(t("ob_need")); const f=el.querySelector("[data-amt]"); if(f) f.focus(); return; }
+      const keep={lang:S.lang,profile:S.profile}; S=sample(keep.lang,keep.profile); S.items=items; S.expenses=[]; S.demo=false; S.premium=true;
+      finishOnb(el,"quick",{picked:obPicks.length,filled:items.length}); }
   });
 }
+function hasExample(){ return S.items.some(i=>i.ex)||S.expenses.some(x=>x.ex); }
+function maybeExPrompt(){ if(!S.demo||!hasExample()) return; track("demo_prompt_shown");
+  setTimeout(()=>{ openSheet(`<h3>${t("ex_q")}</h3><p style="margin:0;font-size:14px;line-height:1.5;color:var(--ink-2)">${t("ex_t")}</p><div style="display:grid;gap:8px"><button type="button" class="btn primary" data-exq="yes">${t("ex_yes")}</button><button type="button" class="btn soft" data-exq="no">${t("ex_no")}</button></div>`);
+    root.querySelector(".sheet").addEventListener("click",e=>{ const b=e.target.closest("[data-exq]"); if(!b) return; track("demo_prompt_answer",{answer:b.dataset.exq});
+      if(b.dataset.exq==="yes"){ S.items=S.items.filter(i=>!i.ex); S.expenses=S.expenses.filter(x=>!x.ex); S.demo=false; save(); render(); closeSheet(); toast(t("t_ex_removed")); } else closeSheet(); }); },350); }
 
 /* ---------- render ---------- */
 const view=document.getElementById("view"), tabsEl=document.getElementById("tabs");
@@ -1093,7 +1136,7 @@ function openEdit(p,preset){
     const nv=f.querySelector("#f-name").value.trim(), pf=f.querySelector("#f-payer");
     const np={...d,name:(d.k&&nv===t("p_"+d.k))?null:nv,amount:amt,currency:f.querySelector("#f-cur").value,cycle:Number(f.querySelector("#f-cycle").value),date:f.querySelector("#f-date").value,cat:f.querySelector("#f-cat").value,payer:pf?pf.value:(d.payer||"m1"),since:f.querySelector("#f-since").value||f.querySelector("#f-date").value,remind:S.premium?Number(f.querySelector("#f-remind").value):1};
     if(isNew) S.items.push(np); else S.items[S.items.findIndex(x=>x.id===d.id)]=np;
-    save(); render(); if(isNew){ closeSheet(); toast(t("t_add",{n:pname(np)})); track("payment_added",{category:np.cat,cycle:np.cycle,preset:!!np.k,currency:np.currency,count:S.items.length}); } else { openDetail(np.id); toast(t("t_saved")); }
+    save(); render(); if(isNew){ closeSheet(); toast(t("t_add",{n:pname(np)})); track("payment_added",{category:np.cat,cycle:np.cycle,preset:!!np.k,currency:np.currency,count:S.items.length}); maybeExPrompt(); } else { openDetail(np.id); toast(t("t_saved")); }
   });
 }
 
@@ -1114,7 +1157,7 @@ function openExpense(e){
     const amt=amountOf(f.querySelector("#x-amount")); if(amt==null) return; const pf=f.querySelector("#x-payer");
     const ne={...d,name:f.querySelector("#x-name").value.trim(),amount:amt,date:f.querySelector("#x-date").value,cat:f.querySelector("#x-cat").value,payer:pf?pf.value:(d.payer||"m1")};
     if(isNew) S.expenses.push(ne); else S.expenses[S.expenses.findIndex(x=>x.id===d.id)]=ne;
-    save(); render(); closeSheet(); toast(isNew?t("t_exp_add",{n:ne.name}):t("t_saved")); if(isNew) track("expense_added",{category:ne.cat,count:S.expenses.length}); });
+    save(); render(); closeSheet(); toast(isNew?t("t_exp_add",{n:ne.name}):t("t_saved")); if(isNew){ track("expense_added",{category:ne.cat,count:S.expenses.length}); maybeExPrompt(); } });
   const del=f.querySelector("#xDel");
   if(del) del.addEventListener("click",()=>{ const box=f.querySelector("#xDelBox"); box.innerHTML=`<div class="confirm"><span>${t("del_q",{n:esc(d.name)})}</span><div class="actions"><button type="button" class="btn danger" id="xYes">${t("del")}</button><button type="button" class="btn soft" id="xNo">${t("keep")}</button></div></div>`;
     box.querySelector("#xYes").onclick=()=>{ S.expenses=S.expenses.filter(x=>x.id!==d.id); save(); render(); closeSheet(); toast(t("t_del",{n:d.name})); };
@@ -1198,7 +1241,7 @@ function openProfile(scroll){
   sh.addEventListener("click",e=>{ const b=e.target.closest("[data-pf]"); if(!b) return; const k=b.dataset.pf;
     if(k==="copy"){ const c=sh.querySelector("#inviteCode"); const sel=()=>{ const r=document.createRange(); r.selectNodeContents(c); const s=getSelection(); s.removeAllRanges(); s.addRange(r); toast(t("t_sel")); }; try{ navigator.clipboard.writeText(c.textContent).then(()=>toast(t("t_copied")),sel); }catch(err){ sel(); } }
     if(k==="inst"){ keepProfileDraft(sh); save(); closeSheet(); openInstall("profile"); return; }
-    if(k==="onb"){ keepProfileDraft(sh); S.onboarded=false; obStep=0; save(); closeSheet(); render(); return; }
+    if(k==="onb"){ keepProfileDraft(sh); S.onboarded=false; obStep=0; obPicks=[]; obVals={}; save(); closeSheet(); render(); return; }
     if(k==="reset"){ keepProfileDraft(sh); S=sample(S.lang,S.profile); save(); closeSheet(); tab="home"; render(); toast(t("t_restored")); }
     if(k==="wipe") sh.querySelector("#pfWipe").innerHTML=`<div class="confirm"><span>${t("wipe_q")}</span><div class="actions"><button type="button" class="btn danger" data-pf="wipeYes">${t("del_all")}</button><button type="button" class="btn soft" data-pf="wipeNo">${t("cancel")}</button></div></div>`;
     if(k==="wipeYes"){ S.items=[]; S.expenses=[]; S.demo=false; save(); render(); closeSheet(); toast(t("t_wiped")); }

@@ -562,6 +562,15 @@ body.dark .sbar{background:rgba(255,255,255,.08)}
 #ptr.loading .ptr-ic{animation:ptrSpin .8s linear infinite}
 @keyframes ptrSpin{to{transform:rotate(360deg)}}
 body.dark #ptr{background:rgba(30,32,44,.96);color:var(--ink)}
+/* tab bar: fade + blur the content scrolling underneath */
+nav.tabs::before{content:"";position:absolute;left:0;right:0;bottom:0;height:calc(128px + env(safe-area-inset-bottom,0px));z-index:-1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(240,241,246,0) 0%,rgba(240,241,246,.72) 38%,rgba(240,241,246,.96) 70%);
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
+  -webkit-mask-image:linear-gradient(180deg,transparent 0%,#000 45%);mask-image:linear-gradient(180deg,transparent 0%,#000 45%)}
+body.dark nav.tabs::before{background:linear-gradient(180deg,rgba(15,17,23,0) 0%,rgba(15,17,23,.75) 38%,rgba(15,17,23,.97) 70%)}
+nav.tabs .in{background:rgba(255,255,255,.86);-webkit-backdrop-filter:blur(22px) saturate(170%);backdrop-filter:blur(22px) saturate(170%);box-shadow:0 10px 30px rgba(30,35,90,.12),inset 0 0 0 1px rgba(255,255,255,.7)}
+body.dark nav.tabs .in{background:rgba(28,30,42,.9);box-shadow:0 10px 30px rgba(0,0,0,.4),inset 0 0 0 1px rgba(255,255,255,.06)}
+body.onb nav.tabs::before{display:none}
 </style>
 
 <div id="splash" role="status" aria-label="DeSave">

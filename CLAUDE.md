@@ -17,6 +17,8 @@ PWA for tracking all recurring household payments (rent, utilities, phone, car i
 - Before a subscription charge (≤7 days) the app asks "Korzystasz z tej subskrypcji?" → "Nie używam" marks it unused and adds to savings.
 - Onboarding: language → 2 info screens → pick regular payments (chips) → amounts + dates → app with own data. "Najpierw pokaż przykład" loads sample data; after the first own payment the app offers to remove the sample.
 - Partner / family, plans and data tools live in Profile; partner UI appears only after a partner is added.
+- Analysis tab: Expenses / Subscriptions × Month / Year; 12-month bars, deltas vs previous month and a year ago (current month compares the same days), category donut with change chips; subscriptions show price increases from `p.hist` (`{to, a}` = old amount valid before `to`), share of spending, top in year scale.
+- Custom expense categories in `S.customCats` (`{id:"c_…", name, color}`); notes in `note` on expenses and payments.
 - Splash: animated brand mark, no progress bars.
 - Mobile rules: inputs ≥16px (no iOS zoom), no horizontal scroll, `overscroll-behavior:none`, body margin 0, status-bar scrim in standalone mode.
 

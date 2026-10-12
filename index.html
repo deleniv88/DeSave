@@ -484,7 +484,7 @@ body.dark .ob-in-amt,body.dark .ob-in-date input{background:rgba(255,255,255,.08
 .ob-logo.brand svg{width:80px;height:80px}.inst-app svg{width:72px;height:72px}
 
 /* ---------- mobile hardening: no zoom, no sideways scroll, no rubber-band ---------- */
-html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden;overscroll-behavior:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
+html,body{margin:0;padding:0;max-width:100%;overflow-x:hidden;overflow-x:clip;overscroll-behavior:none;-webkit-text-size-adjust:100%;text-size-adjust:100%}
 body{touch-action:manipulation}
 input,select,textarea,button{font-size:16px}
 input,select,textarea{max-width:100%;min-width:0;box-sizing:border-box}
@@ -507,6 +507,47 @@ body.onb::before{display:none}
 .sheet-x:focus-visible{outline:2px solid var(--b);outline-offset:2px}
 body.dark .sheet-x{background:rgba(255,255,255,.1);color:var(--ink)}
 .sheet h3{padding-right:44px}
+
+/* ---------- analysis ---------- */
+.an-ctl{display:grid;gap:8px;margin-top:6px}.an-ctl .seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;width:100%}.an-ctl .seg button{white-space:nowrap}
+.an-nav{display:flex;align-items:center;justify-content:space-between;margin:16px 0 4px}.an-nav b{font-family:var(--f-display);font-size:19px}.an-nav .icon-btn[disabled]{opacity:.3}
+.an-sum{border-radius:var(--r-xl);padding:18px;margin-top:10px;display:grid;gap:4px}
+.an-big{font-family:var(--f-num);font-weight:700;font-size:38px;letter-spacing:-.02em;color:var(--ink)}
+.an-note{font-size:12.5px;color:var(--ink-3)}
+.dls{display:grid;gap:6px;margin-top:8px}.dl{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:14px}.dl-k{color:var(--ink-2)}
+.dl-v{font-weight:700;font-family:var(--f-num)}.dl-v small{font-weight:500;color:var(--ink-3);margin-left:4px}.dl-v.up,.cd.up{color:#E5484D}.dl-v.down,.cd.down{color:#1FA37A}.dl-v.muted{color:var(--ink-3);font-weight:500}
+.cd{font-size:12.5px;font-weight:600;margin-left:4px}
+.an-chart{border-radius:var(--r-xl);padding:16px 12px 10px}
+.bars{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:4px;align-items:end;height:170px}
+.bar{display:grid;grid-template-rows:1fr auto;height:100%;gap:6px;padding:0;background:none;min-width:0}
+.bwrap{position:relative;display:flex;align-items:flex-end;justify-content:center;height:100%}
+.bv{position:relative;width:70%;max-width:22px;border-radius:7px 7px 3px 3px;background:rgba(94,108,255,.28);transition:height .35s cubic-bezier(.2,.8,.2,1)}
+.bg{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:92%;max-width:28px;border-radius:7px 7px 3px 3px;background:rgba(36,37,39,.08)}
+.bar.on .bv{background:linear-gradient(180deg,var(--a),var(--b))}
+.bl{font-size:10.5px;color:var(--ink-3);text-align:center;white-space:nowrap;overflow:hidden}
+.bar.on .bl{color:var(--b);font-weight:700}
+.legend{display:flex;gap:14px;justify-content:center;margin-top:10px;font-size:12px;color:var(--ink-2)}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.lg-cur{background:linear-gradient(180deg,var(--a),var(--b))}.lg-prev{background:rgba(36,37,39,.14)}
+.an-cats{border-radius:var(--r-xl);padding:16px;margin-top:0}
+.an-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.an-facts>div{display:grid;gap:2px;padding:10px;border-radius:14px;background:rgba(255,255,255,.55)}.an-facts span{font-size:11.5px;color:var(--ink-3)}.an-facts b{font-size:15px}.an-facts small{font-size:12px;color:var(--ink-2)}
+.an-facts.two-col{grid-template-columns:1fr 1fr;border-radius:var(--r-xl);padding:12px;margin-top:14px}
+.an-share{border-radius:var(--r-xl);padding:16px;margin-top:14px;display:grid;gap:8px}.an-share>div{display:flex;justify-content:space-between;align-items:baseline}.an-share b{font-size:22px}.an-share p{margin:0;font-size:13.5px;color:var(--ink-2)}
+.an-share .track{height:8px;border-radius:99px;background:rgba(36,37,39,.08);overflow:hidden}.an-share .track div{height:100%;border-radius:99px}
+.amt.rise{display:grid;justify-items:end;font-size:13.5px;gap:2px;white-space:nowrap}.amt.rise s{color:var(--ink-3)}.amt.rise small{color:#E5484D;font-weight:700}
+body.dark .an-facts>div{background:rgba(255,255,255,.05)}body.dark .bg{background:rgba(255,255,255,.1)}body.dark .lg-prev{background:rgba(255,255,255,.2)}
+/* notes + custom category */
+.field textarea{background:rgba(255,255,255,.85);border:1px solid rgba(36,37,39,.08);border-radius:14px;padding:12px 13px;width:100%;min-width:0;font:inherit;font-size:16px;resize:none;color:var(--ink)}
+body.dark .field textarea{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.1)}
+.newcat{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end}.newcat[hidden]{display:none}
+.note-card{border-radius:var(--r-xl);padding:14px 16px;margin-top:12px}.note-card p{margin:4px 0 0;white-space:pre-wrap;font-size:14.5px}
+.note-inline{font-style:italic}
+.an-ring{margin-top:0}.an-ring .cats{margin-top:14px}
+.cat .cn{display:flex;align-items:center;gap:6px;min-width:0;flex-wrap:wrap}
+.cat .cd{font-family:var(--f-num);font-size:11.5px;font-weight:700;padding:2px 7px;border-radius:99px;margin:0;background:rgba(36,37,39,.06);color:var(--ink-3)}
+.cat .cd.up{background:rgba(229,72,77,.12);color:#E5484D}.cat .cd.down{background:rgba(31,163,122,.13);color:#1FA37A}
+.cat .pc{color:var(--ink-3);font-weight:500;margin-left:2px}
+body.dark .cat .cd{background:rgba(255,255,255,.08)}
 </style>
 
 <div id="splash" role="status" aria-label="DeSave">
@@ -540,7 +581,7 @@ pl:{
  demo:"Przykładowe dane. Edytuj je albo wyczyść.",clear:"Wyczyść",
  pay_m:"Płacisz co miesiąc",pay_y:"Płacisz co rok",
  fixed:"Stałe wydatki · {p}",per_m:"miesięcznie",per_y:"rocznie",monthly:"Miesięcznie",yearly:"Rocznie",
- n_fixed:"{n} stałych opłat",add:"Dodaj",in30:"Do zapłaty w 30 dni",avg_day:"Średnio dziennie",fixed_lbl:"Stała opłata",ob4_h:"Co płacisz regularnie?",ob4_t:"Zaznacz wszystko, co pasuje. Kwoty wpiszesz za chwilę.",ob_n_sel:"Dalej · {n}",ob_pick_min:"Zaznacz przynajmniej jedną",ob_demo_link:"Najpierw pokaż przykład",ob5_h:"Kwoty i terminy",ob5_t:"Ile płacisz i kiedy jest najbliższa płatność. Wszystko zmienisz później.",ob_amount:"Kwota",ob_when:"Najbliższa",ob_name_opt:"Jak masz na imię? (opcjonalnie)",ob_need:"Wpisz kwotę przynajmniej jednej płatności",ob_more:"Pozostałe płatności dodasz później przyciskiem +",ex_q:"Usunąć przykładowe dane?",ex_t:"Dodano Twoją pierwszą płatność. Zostaw tylko swoje dane, żeby liczby były prawdziwe.",ex_yes:"Tak, usuń przykład",ex_no:"Później",t_ex_removed:"Przykład usunięty. Widzisz tylko swoje dane.",inst_h:"Dodaj aplikację na ekran główny",inst_t:"Będzie się otwierać jak zwykła aplikacja, na pełnym ekranie. Na iPhonie to też chroni Twoje dane: Safari może je usunąć, jeśli przez 7 dni nie otworzysz strony.",inst_ios1:"Stuknij Udostępnij na dole Safari",inst_ios2:"Przewiń i wybierz „Do ekranu początkowego”",inst_ios3:"Stuknij „Dodaj” w prawym górnym rogu",inst_and1:"Otwórz menu przeglądarki ⋮",inst_and2:"Wybierz „Zainstaluj aplikację” lub „Dodaj do ekranu głównego”",inst_and3:"Potwierdź",inst_desk:"Otwórz ten adres na telefonie i dodaj aplikację na ekran główny.",inst_btn:"Zainstaluj",inst_later:"Później",inst_done:"Gotowe",sec_help:"Pomoc",fb:"Napisz opinię",fb_t:"Co działa, co nie, czego brakuje",fb_open:"Napisz",priv:"Prywatność",priv_t:"Jakie dane zbieramy",priv_open:"Otwórz",inst_row:"Ekran główny",inst_row_t:"Dodaj jak zwykłą aplikację",inst_show:"Jak dodać",an:"Anonimowe statystyki",an_t:"Bez kwot i nazw płatności. Pomaga ulepszać aplikację.",ob_stats:"Zbieramy anonimowe statystyki użycia, bez kwot i nazw płatności. Wyłączysz je w profilu.",t_installed:"Aplikacja zainstalowana",ob_next:"Dalej",ob_skip:"Pomiń",ob_back:"Wstecz",ob1_h:"Wszystkie opłaty w jednym miejscu",ob1_t:"Czynsz, media, telefon, OC, subskrypcje i codzienne wydatki. Od razu widzisz, ile naprawdę kosztuje miesiąc.",ob2_h:"Przypomnimy, zanim zapłacisz",ob2_t:"Powiadomienie przed każdą płatnością. Przy subskrypcjach zapytamy, czy jeszcze z nich korzystasz, i policzymy, ile możesz zaoszczędzić.",ob3_h:"Zaczynamy",ob_name:"Jak masz na imię?",ob_ph:"np. Ania",ob_demo:"Z przykładowymi danymi",ob_demo_t:"Zobacz, jak to działa. Wyczyścisz jednym kliknięciem.",ob_empty:"Od zera",ob_empty_t:"Dodasz swoje płatności samodzielnie.",ob_go:"Zaczynamy",ob_replay:"Wprowadzenie",ob_replay_t:"Pokaż ekrany powitalne jeszcze raz",ob_show:"Pokaż",ask_q:"Korzystasz z tej subskrypcji?",ask_yes:"Tak, korzystam",ask_no:"Nie używam",t_unused:"Zapisano. Możesz zaoszczędzić {x} rocznie",t_used:"Dzięki, zapytam przy następnej płatności",chk_val:"Sprawdź",chk_sub:"czego nie używasz",pay_month:"Płatności · {m}",paid_left:"Zapłacone {a} · zostało {b}",n_days:"za {n} dni",top_cat:"Najwięcej na",n_pay:"{n} płatności",all_payments_lc:"wszystkie opłaty",
+ n_fixed:"{n} stałych opłat",add:"Dodaj",in30:"Do zapłaty w 30 dni",avg_day:"Średnio dziennie",an_m:"Miesiąc",an_biggest:"Największe wydatki",an_y:"Rok",an_vs_prev:"Poprzedni miesiąc",an_vs_ly:"Rok temu",an_vs_py:"Poprzedni rok",an_total_exp:"Wydatki",an_total_sub:"Subskrypcje i rachunki",an_progress:"miesiąc w trakcie",an_last12:"Ostatnie 12 miesięcy",an_months:"Miesiące: {y} i {p}",an_cats:"Kategorie",an_avg:"Średnio / miesiąc",an_max:"Najdroższy miesiąc",an_min:"Najtańszy miesiąc",an_rises:"Podwyżki cen",an_no_rises:"Brak podwyżek w ostatnich 12 miesiącach.",an_from:"od {d}",an_share:"Udział w wydatkach",an_share_t:"Subskrypcje i rachunki to {p}% wszystkich wydatków w tym miesiącu.",an_active:"Aktywne",an_newy:"Nowe w {y}",an_nodata:"brak danych",an_same:"bez zmian",cat_new:"+ Nowa kategoria…",cat_name:"Nazwa kategorii",cat_ph:"np. Dzieci",cat_add:"Dodaj",t_cat_add:"Dodano kategorię: {n}",f_note:"Notatka",ph_note:"np. za dwa miesiące, faktura w mailu",fixed_lbl:"Stała opłata",ob4_h:"Co płacisz regularnie?",ob4_t:"Zaznacz wszystko, co pasuje. Kwoty wpiszesz za chwilę.",ob_n_sel:"Dalej · {n}",ob_pick_min:"Zaznacz przynajmniej jedną",ob_demo_link:"Najpierw pokaż przykład",ob5_h:"Kwoty i terminy",ob5_t:"Ile płacisz i kiedy jest najbliższa płatność. Wszystko zmienisz później.",ob_amount:"Kwota",ob_when:"Najbliższa",ob_name_opt:"Jak masz na imię? (opcjonalnie)",ob_need:"Wpisz kwotę przynajmniej jednej płatności",ob_more:"Pozostałe płatności dodasz później przyciskiem +",ex_q:"Usunąć przykładowe dane?",ex_t:"Dodano Twoją pierwszą płatność. Zostaw tylko swoje dane, żeby liczby były prawdziwe.",ex_yes:"Tak, usuń przykład",ex_no:"Później",t_ex_removed:"Przykład usunięty. Widzisz tylko swoje dane.",inst_h:"Dodaj aplikację na ekran główny",inst_t:"Będzie się otwierać jak zwykła aplikacja, na pełnym ekranie. Na iPhonie to też chroni Twoje dane: Safari może je usunąć, jeśli przez 7 dni nie otworzysz strony.",inst_ios1:"Stuknij Udostępnij na dole Safari",inst_ios2:"Przewiń i wybierz „Do ekranu początkowego”",inst_ios3:"Stuknij „Dodaj” w prawym górnym rogu",inst_and1:"Otwórz menu przeglądarki ⋮",inst_and2:"Wybierz „Zainstaluj aplikację” lub „Dodaj do ekranu głównego”",inst_and3:"Potwierdź",inst_desk:"Otwórz ten adres na telefonie i dodaj aplikację na ekran główny.",inst_btn:"Zainstaluj",inst_later:"Później",inst_done:"Gotowe",sec_help:"Pomoc",fb:"Napisz opinię",fb_t:"Co działa, co nie, czego brakuje",fb_open:"Napisz",priv:"Prywatność",priv_t:"Jakie dane zbieramy",priv_open:"Otwórz",inst_row:"Ekran główny",inst_row_t:"Dodaj jak zwykłą aplikację",inst_show:"Jak dodać",an:"Anonimowe statystyki",an_t:"Bez kwot i nazw płatności. Pomaga ulepszać aplikację.",ob_stats:"Zbieramy anonimowe statystyki użycia, bez kwot i nazw płatności. Wyłączysz je w profilu.",t_installed:"Aplikacja zainstalowana",ob_next:"Dalej",ob_skip:"Pomiń",ob_back:"Wstecz",ob1_h:"Wszystkie opłaty w jednym miejscu",ob1_t:"Czynsz, media, telefon, OC, subskrypcje i codzienne wydatki. Od razu widzisz, ile naprawdę kosztuje miesiąc.",ob2_h:"Przypomnimy, zanim zapłacisz",ob2_t:"Powiadomienie przed każdą płatnością. Przy subskrypcjach zapytamy, czy jeszcze z nich korzystasz, i policzymy, ile możesz zaoszczędzić.",ob3_h:"Zaczynamy",ob_name:"Jak masz na imię?",ob_ph:"np. Ania",ob_demo:"Z przykładowymi danymi",ob_demo_t:"Zobacz, jak to działa. Wyczyścisz jednym kliknięciem.",ob_empty:"Od zera",ob_empty_t:"Dodasz swoje płatności samodzielnie.",ob_go:"Zaczynamy",ob_replay:"Wprowadzenie",ob_replay_t:"Pokaż ekrany powitalne jeszcze raz",ob_show:"Pokaż",ask_q:"Korzystasz z tej subskrypcji?",ask_yes:"Tak, korzystam",ask_no:"Nie używam",t_unused:"Zapisano. Możesz zaoszczędzić {x} rocznie",t_used:"Dzięki, zapytam przy następnej płatności",chk_val:"Sprawdź",chk_sub:"czego nie używasz",pay_month:"Płatności · {m}",paid_left:"Zapłacone {a} · zostało {b}",n_days:"za {n} dni",top_cat:"Najwięcej na",n_pay:"{n} płatności",all_payments_lc:"wszystkie opłaty",
  recover:"Do odzyskania",recover_sub:"rocznie · {n} nieużywane",all_used:"wszystko w użyciu",trial:"Okres próbny",ends:"kończy się {r}",
  whole:"Wszystkie płatności",calendar:"Kalendarz",stats:"Analiza",family:"Rodzina",
  upcoming:"Najbliższe płatności",see_all:"Wszystkie",first:"Dodaj pierwszą płatność przyciskiem +.",
@@ -586,7 +627,7 @@ uk:{
  demo:"Приклад даних. Змініть їх або очистіть.",clear:"Очистити",
  pay_m:"Щомісяця ви платите",pay_y:"Щороку ви платите",
  fixed:"Регулярні витрати · {p}",per_m:"на місяць",per_y:"на рік",monthly:"На місяць",yearly:"На рік",
- n_fixed:"Регулярних платежів: {n}",add:"Додати",in30:"До сплати за 30 днів",avg_day:"У середньому за день",fixed_lbl:"Регулярний платіж",ob4_h:"Що ви платите регулярно?",ob4_t:"Позначте все, що підходить. Суми введете за хвилину.",ob_n_sel:"Далі · {n}",ob_pick_min:"Позначте хоча б один",ob_demo_link:"Спершу показати приклад",ob5_h:"Суми й дати",ob5_t:"Скільки платите і коли найближчий платіж. Усе можна змінити пізніше.",ob_amount:"Сума",ob_when:"Найближчий",ob_name_opt:"Як вас звати? (необов'язково)",ob_need:"Введіть суму хоча б одного платежу",ob_more:"Інші платежі додасте пізніше кнопкою +",ex_q:"Видалити приклад?",ex_t:"Ви додали свій перший платіж. Залиште тільки свої дані, щоб цифри були справжні.",ex_yes:"Так, видалити приклад",ex_no:"Пізніше",t_ex_removed:"Приклад видалено. Тепер тут тільки ваші дані.",inst_h:"Додайте застосунок на головний екран",inst_t:"Він відкриватиметься як звичайний застосунок, на весь екран. На iPhone це ще й береже ваші дані: Safari може їх видалити, якщо 7 днів не відкривати сторінку.",inst_ios1:"Торкніться «Поділитися» внизу Safari",inst_ios2:"Прокрутіть і виберіть «На початковий екран»",inst_ios3:"Торкніться «Додати» вгорі праворуч",inst_and1:"Відкрийте меню браузера ⋮",inst_and2:"Виберіть «Установити застосунок» або «Додати на головний екран»",inst_and3:"Підтвердьте",inst_desk:"Відкрийте цю адресу на телефоні й додайте застосунок на головний екран.",inst_btn:"Установити",inst_later:"Пізніше",inst_done:"Готово",sec_help:"Допомога",fb:"Написати відгук",fb_t:"Що працює, що ні, чого бракує",fb_open:"Написати",priv:"Конфіденційність",priv_t:"Які дані ми збираємо",priv_open:"Відкрити",inst_row:"Головний екран",inst_row_t:"Додати як звичайний застосунок",inst_show:"Як додати",an:"Анонімна статистика",an_t:"Без сум і назв платежів. Допомагає покращувати застосунок.",ob_stats:"Збираємо анонімну статистику використання, без сум і назв платежів. Вимкнути можна в профілі.",t_installed:"Застосунок установлено",ob_next:"Далі",ob_skip:"Пропустити",ob_back:"Назад",ob1_h:"Усі платежі в одному місці",ob1_t:"Оренда, комуналка, телефон, OC, підписки і щоденні витрати. Одразу видно, скільки насправді коштує місяць.",ob2_h:"Нагадаємо, перш ніж заплатите",ob2_t:"Сповіщення перед кожним платежем. Щодо підписок запитаємо, чи ви ще ними користуєтесь, і порахуємо, скільки можна заощадити.",ob3_h:"Починаємо",ob_name:"Як вас звати?",ob_ph:"напр. Оля",ob_demo:"З прикладом",ob_demo_t:"Подивіться, як усе працює. Очистите одним натиском.",ob_empty:"З нуля",ob_empty_t:"Додасте свої платежі самі.",ob_go:"Почати",ob_replay:"Вступ",ob_replay_t:"Показати вітальні екрани ще раз",ob_show:"Показати",ask_q:"Користуєтесь цією підпискою?",ask_yes:"Так, користуюсь",ask_no:"Не використовую",t_unused:"Збережено. Можна заощадити {x} на рік",t_used:"Дякую, запитаю перед наступною оплатою",chk_val:"Перевірте",chk_sub:"що не використовуєте",pay_month:"Платежі · {m}",paid_left:"Сплачено {a} · залишилось {b}",n_days:"за {n} днів",top_cat:"Найбільше на",n_pay:"{n} платежів",all_payments_lc:"усі платежі",
+ n_fixed:"Регулярних платежів: {n}",add:"Додати",in30:"До сплати за 30 днів",avg_day:"У середньому за день",an_m:"Місяць",an_biggest:"Найбільші витрати",an_y:"Рік",an_vs_prev:"Попередній місяць",an_vs_ly:"Рік тому",an_vs_py:"Попередній рік",an_total_exp:"Витрати",an_total_sub:"Підписки й рахунки",an_progress:"місяць ще триває",an_last12:"Останні 12 місяців",an_months:"Місяці: {y} і {p}",an_cats:"Категорії",an_avg:"У середньому / місяць",an_max:"Найдорожчий місяць",an_min:"Найдешевший місяць",an_rises:"Подорожчання",an_no_rises:"За останні 12 місяців нічого не подорожчало.",an_from:"з {d}",an_share:"Частка у витратах",an_share_t:"Підписки й рахунки — це {p}% усіх витрат цього місяця.",an_active:"Активні",an_newy:"Нові у {y}",an_nodata:"немає даних",an_same:"без змін",cat_new:"+ Нова категорія…",cat_name:"Назва категорії",cat_ph:"напр. Діти",cat_add:"Додати",t_cat_add:"Категорію додано: {n}",f_note:"Нотатка",ph_note:"напр. за два місяці, рахунок на пошті",fixed_lbl:"Регулярний платіж",ob4_h:"Що ви платите регулярно?",ob4_t:"Позначте все, що підходить. Суми введете за хвилину.",ob_n_sel:"Далі · {n}",ob_pick_min:"Позначте хоча б один",ob_demo_link:"Спершу показати приклад",ob5_h:"Суми й дати",ob5_t:"Скільки платите і коли найближчий платіж. Усе можна змінити пізніше.",ob_amount:"Сума",ob_when:"Найближчий",ob_name_opt:"Як вас звати? (необов'язково)",ob_need:"Введіть суму хоча б одного платежу",ob_more:"Інші платежі додасте пізніше кнопкою +",ex_q:"Видалити приклад?",ex_t:"Ви додали свій перший платіж. Залиште тільки свої дані, щоб цифри були справжні.",ex_yes:"Так, видалити приклад",ex_no:"Пізніше",t_ex_removed:"Приклад видалено. Тепер тут тільки ваші дані.",inst_h:"Додайте застосунок на головний екран",inst_t:"Він відкриватиметься як звичайний застосунок, на весь екран. На iPhone це ще й береже ваші дані: Safari може їх видалити, якщо 7 днів не відкривати сторінку.",inst_ios1:"Торкніться «Поділитися» внизу Safari",inst_ios2:"Прокрутіть і виберіть «На початковий екран»",inst_ios3:"Торкніться «Додати» вгорі праворуч",inst_and1:"Відкрийте меню браузера ⋮",inst_and2:"Виберіть «Установити застосунок» або «Додати на головний екран»",inst_and3:"Підтвердьте",inst_desk:"Відкрийте цю адресу на телефоні й додайте застосунок на головний екран.",inst_btn:"Установити",inst_later:"Пізніше",inst_done:"Готово",sec_help:"Допомога",fb:"Написати відгук",fb_t:"Що працює, що ні, чого бракує",fb_open:"Написати",priv:"Конфіденційність",priv_t:"Які дані ми збираємо",priv_open:"Відкрити",inst_row:"Головний екран",inst_row_t:"Додати як звичайний застосунок",inst_show:"Як додати",an:"Анонімна статистика",an_t:"Без сум і назв платежів. Допомагає покращувати застосунок.",ob_stats:"Збираємо анонімну статистику використання, без сум і назв платежів. Вимкнути можна в профілі.",t_installed:"Застосунок установлено",ob_next:"Далі",ob_skip:"Пропустити",ob_back:"Назад",ob1_h:"Усі платежі в одному місці",ob1_t:"Оренда, комуналка, телефон, OC, підписки і щоденні витрати. Одразу видно, скільки насправді коштує місяць.",ob2_h:"Нагадаємо, перш ніж заплатите",ob2_t:"Сповіщення перед кожним платежем. Щодо підписок запитаємо, чи ви ще ними користуєтесь, і порахуємо, скільки можна заощадити.",ob3_h:"Починаємо",ob_name:"Як вас звати?",ob_ph:"напр. Оля",ob_demo:"З прикладом",ob_demo_t:"Подивіться, як усе працює. Очистите одним натиском.",ob_empty:"З нуля",ob_empty_t:"Додасте свої платежі самі.",ob_go:"Почати",ob_replay:"Вступ",ob_replay_t:"Показати вітальні екрани ще раз",ob_show:"Показати",ask_q:"Користуєтесь цією підпискою?",ask_yes:"Так, користуюсь",ask_no:"Не використовую",t_unused:"Збережено. Можна заощадити {x} на рік",t_used:"Дякую, запитаю перед наступною оплатою",chk_val:"Перевірте",chk_sub:"що не використовуєте",pay_month:"Платежі · {m}",paid_left:"Сплачено {a} · залишилось {b}",n_days:"за {n} днів",top_cat:"Найбільше на",n_pay:"{n} платежів",all_payments_lc:"усі платежі",
  recover:"Можна повернути",recover_sub:"на рік · {n} не використовуються",all_used:"усе використовується",trial:"Пробний період",ends:"закінчується {r}",
  whole:"Усі платежі",calendar:"Календар",stats:"Аналітика",family:"Родина",
  upcoming:"Найближчі платежі",see_all:"Усі",first:"Додайте перший платіж кнопкою +.",
@@ -631,7 +672,7 @@ en:{
  demo:"Sample data. Edit it or clear it.",clear:"Clear",
  pay_m:"You pay every month",pay_y:"You pay every year",
  fixed:"Fixed costs · {p}",per_m:"monthly",per_y:"yearly",monthly:"Monthly",yearly:"Yearly",
- n_fixed:"{n} recurring payments",add:"Add",in30:"Due in 30 days",avg_day:"Daily average",fixed_lbl:"Recurring",ob4_h:"What do you pay regularly?",ob4_t:"Tick everything that applies. You'll add amounts next.",ob_n_sel:"Next · {n}",ob_pick_min:"Pick at least one",ob_demo_link:"Show me an example first",ob5_h:"Amounts and dates",ob5_t:"How much you pay and when the next payment is. You can change it all later.",ob_amount:"Amount",ob_when:"Next payment",ob_name_opt:"What's your name? (optional)",ob_need:"Enter the amount for at least one payment",ob_more:"Add other payments later with the + button",ex_q:"Remove the sample data?",ex_t:"You added your first payment. Keep only your own data so the numbers are real.",ex_yes:"Yes, remove sample",ex_no:"Later",t_ex_removed:"Sample removed. Only your data now.",inst_h:"Add the app to your home screen",inst_t:"It will open like a regular app, full screen. On iPhone it also keeps your data safe: Safari may delete it if you don't open the page for 7 days.",inst_ios1:"Tap Share at the bottom of Safari",inst_ios2:"Scroll and choose “Add to Home Screen”",inst_ios3:"Tap “Add” in the top right",inst_and1:"Open the browser menu ⋮",inst_and2:"Choose “Install app” or “Add to Home screen”",inst_and3:"Confirm",inst_desk:"Open this address on your phone and add the app to your home screen.",inst_btn:"Install",inst_later:"Later",inst_done:"Done",sec_help:"Help",fb:"Send feedback",fb_t:"What works, what doesn't, what's missing",fb_open:"Write",priv:"Privacy",priv_t:"What data we collect",priv_open:"Open",inst_row:"Home screen",inst_row_t:"Add it like a regular app",inst_show:"How to",an:"Anonymous usage stats",an_t:"No amounts or payment names. Helps improve the app.",ob_stats:"We collect anonymous usage stats, with no amounts or payment names. You can turn this off in your profile.",t_installed:"App installed",ob_next:"Next",ob_skip:"Skip",ob_back:"Back",ob1_h:"All your bills in one place",ob1_t:"Rent, utilities, phone, car insurance, subscriptions and everyday spending. See what a month really costs at a glance.",ob2_h:"We'll remind you before you pay",ob2_t:"A heads-up before every payment. For subscriptions we'll ask if you still use them and show how much you could save.",ob3_h:"Let's start",ob_name:"What's your name?",ob_ph:"e.g. Anna",ob_demo:"With sample data",ob_demo_t:"See how it works. Clear it in one tap.",ob_empty:"From scratch",ob_empty_t:"Add your own payments yourself.",ob_go:"Get started",ob_replay:"Intro",ob_replay_t:"Show the welcome screens again",ob_show:"Show",ask_q:"Still using this subscription?",ask_yes:"Yes, I use it",ask_no:"Not using",t_unused:"Saved. You could save {x} a year",t_used:"Thanks, I'll ask before the next charge",chk_val:"Review",chk_sub:"what you don't use",pay_month:"Payments · {m}",paid_left:"Paid {a} · {b} left",n_days:"over {n} days",top_cat:"Top category",n_pay:"{n} payments",all_payments_lc:"all payments",
+ n_fixed:"{n} recurring payments",add:"Add",in30:"Due in 30 days",avg_day:"Daily average",an_m:"Month",an_biggest:"Biggest expenses",an_y:"Year",an_vs_prev:"Previous month",an_vs_ly:"A year ago",an_vs_py:"Previous year",an_total_exp:"Spending",an_total_sub:"Subscriptions & bills",an_progress:"month in progress",an_last12:"Last 12 months",an_months:"Months: {y} vs {p}",an_cats:"Categories",an_avg:"Average / month",an_max:"Most expensive month",an_min:"Cheapest month",an_rises:"Price increases",an_no_rises:"No price increases in the last 12 months.",an_from:"since {d}",an_share:"Share of spending",an_share_t:"Subscriptions & bills are {p}% of all spending this month.",an_active:"Active",an_newy:"New in {y}",an_nodata:"no data",an_same:"no change",cat_new:"+ New category…",cat_name:"Category name",cat_ph:"e.g. Kids",cat_add:"Add",t_cat_add:"Category added: {n}",f_note:"Note",ph_note:"e.g. covers two months, invoice in email",fixed_lbl:"Recurring",ob4_h:"What do you pay regularly?",ob4_t:"Tick everything that applies. You'll add amounts next.",ob_n_sel:"Next · {n}",ob_pick_min:"Pick at least one",ob_demo_link:"Show me an example first",ob5_h:"Amounts and dates",ob5_t:"How much you pay and when the next payment is. You can change it all later.",ob_amount:"Amount",ob_when:"Next payment",ob_name_opt:"What's your name? (optional)",ob_need:"Enter the amount for at least one payment",ob_more:"Add other payments later with the + button",ex_q:"Remove the sample data?",ex_t:"You added your first payment. Keep only your own data so the numbers are real.",ex_yes:"Yes, remove sample",ex_no:"Later",t_ex_removed:"Sample removed. Only your data now.",inst_h:"Add the app to your home screen",inst_t:"It will open like a regular app, full screen. On iPhone it also keeps your data safe: Safari may delete it if you don't open the page for 7 days.",inst_ios1:"Tap Share at the bottom of Safari",inst_ios2:"Scroll and choose “Add to Home Screen”",inst_ios3:"Tap “Add” in the top right",inst_and1:"Open the browser menu ⋮",inst_and2:"Choose “Install app” or “Add to Home screen”",inst_and3:"Confirm",inst_desk:"Open this address on your phone and add the app to your home screen.",inst_btn:"Install",inst_later:"Later",inst_done:"Done",sec_help:"Help",fb:"Send feedback",fb_t:"What works, what doesn't, what's missing",fb_open:"Write",priv:"Privacy",priv_t:"What data we collect",priv_open:"Open",inst_row:"Home screen",inst_row_t:"Add it like a regular app",inst_show:"How to",an:"Anonymous usage stats",an_t:"No amounts or payment names. Helps improve the app.",ob_stats:"We collect anonymous usage stats, with no amounts or payment names. You can turn this off in your profile.",t_installed:"App installed",ob_next:"Next",ob_skip:"Skip",ob_back:"Back",ob1_h:"All your bills in one place",ob1_t:"Rent, utilities, phone, car insurance, subscriptions and everyday spending. See what a month really costs at a glance.",ob2_h:"We'll remind you before you pay",ob2_t:"A heads-up before every payment. For subscriptions we'll ask if you still use them and show how much you could save.",ob3_h:"Let's start",ob_name:"What's your name?",ob_ph:"e.g. Anna",ob_demo:"With sample data",ob_demo_t:"See how it works. Clear it in one tap.",ob_empty:"From scratch",ob_empty_t:"Add your own payments yourself.",ob_go:"Get started",ob_replay:"Intro",ob_replay_t:"Show the welcome screens again",ob_show:"Show",ask_q:"Still using this subscription?",ask_yes:"Yes, I use it",ask_no:"Not using",t_unused:"Saved. You could save {x} a year",t_used:"Thanks, I'll ask before the next charge",chk_val:"Review",chk_sub:"what you don't use",pay_month:"Payments · {m}",paid_left:"Paid {a} · {b} left",n_days:"over {n} days",top_cat:"Top category",n_pay:"{n} payments",all_payments_lc:"all payments",
  recover:"Recoverable",recover_sub:"a year · {n} unused",all_used:"all in use",trial:"Free trial",ends:"ends {r}",
  whole:"All payments",calendar:"Calendar",stats:"Insights",family:"Family",
  upcoming:"Upcoming payments",see_all:"See all",first:"Add your first payment with the + button.",
@@ -676,7 +717,9 @@ const loc=()=>LOC[S.lang]||"pl-PL";
 
 /* ---------- data model ---------- */
 const CATS={dom:"#5E6CFF",media:"#F29A2E",telefon:"#2E9CE6",auto:"#3A4566",ubezp:"#1FA389",rozrywka:"#E5484D",chmura:"#8B6CF6",zdrowie:"#20A86E",inne:"#8A8FA3",food:"#E8833A",eatout:"#EF6A8A",transport:"#0EA5A4",shopping:"#C04FD6"};
-const catName=c=>t("cat_"+c);
+const catName=c=>{ const cc=(typeof S!=="undefined"&&S&&S.customCats||[]).find(x=>x.id===c); return cc?cc.name:t("cat_"+c); };
+const CUSTOM_COLORS=["#E0607E","#2BA6C8","#9B6BE8","#D99A1E","#3FAE6A","#E5764D","#5C7CFA","#B85CB0"];
+function expCats(){ return [...EXP_CATS,...(S.customCats||[]).map(c=>c.id)]; }
 const PRESETS=[
  ["dom",[["rent",1,"home"],["hoa",1,"home"],["mortgage",1,"bank"],["proptax",3,"doc"],["trash",3,"trash"]]],
  ["media",[["power",2,"bolt"],["gas",2,"flame"],["water",3,"drop"],["heating",1,"heat"]]],
@@ -746,7 +789,17 @@ const REMIND_OPTS=[-1,0,1,2,3,7,14,21,30];
 const REC_CATS=["dom","media","telefon","auto","ubezp","rozrywka","chmura","zdrowie","inne"];
 const EXP_CATS=["food","eatout","transport","shopping","zdrowie","rozrywka","inne"];
 function dayInMonth(back){ const x=today(); return iso(new Date(x.getFullYear(),x.getMonth(),Math.max(1,x.getDate()-back))); }
-function sample(lang,profile){ const o=sampleRaw(lang,profile); o.items.forEach(i=>i.ex=true); o.expenses.forEach(x=>x.ex=true); return o; }
+
+function genHistory(months){
+  let seed=7; const rnd=()=>{ seed=(seed*16807)%2147483647; return (seed-1)/2147483646; };
+  const T=[["Biedronka","food",60,220,2,4],["Lidl","food",50,200,1,3],["Żabka","food",12,40,1,3],["Orlen","transport",150,280,1,2],["Bolt","transport",18,45,0,2],["Pizzeria","eatout",60,160,0,2],["Rossmann","shopping",30,120,0,2],["Allegro","shopping",40,300,0,2],["Apteka","zdrowie",20,90,0,1],["Kino","rozrywka",40,80,0,1]];
+  const x=today(), out=[]; let n=0;
+  for(let b=1;b<=months;b++){ const d0=new Date(x.getFullYear(),x.getMonth()-b,1), mo=d0.getMonth();
+    T.forEach(([name,cat,lo,hi,cmin,cmax])=>{ let k=1; if(cat==="shopping"&&mo===11) k=2.2; if(cat==="eatout"&&(mo===6||mo===7)) k=1.5; if(cat==="food"&&mo===11) k=1.3;
+      const cnt=cmin+Math.floor(rnd()*(cmax-cmin+1)); for(let i=0;i<cnt;i++){ const amt=Math.round((lo+rnd()*(hi-lo))*k*100)/100; out.push({id:"h"+(n++),name,cat,amount:amt,date:iso(new Date(d0.getFullYear(),mo,1+Math.floor(rnd()*27))),payer:"m1"}); } }); }
+  return out;
+}
+function sample(lang,profile){ const o=sampleRaw(lang,profile); o.expenses.push(...genHistory(22)); const H={p1:[{to:monthsAgo(9),a:620}],p3:[{to:monthsAgo(10),a:59}],p8:[{to:monthsAgo(7),a:43}],p9:[{to:monthsAgo(4),a:29.99}]}; o.items.forEach(i=>{ if(H[i.id]) i.hist=H[i.id]; }); o.customCats=[]; o.items.forEach(i=>i.ex=true); o.expenses.forEach(x=>x.ex=true); return o; }
 function sampleRaw(lang,profile){
   return {lang, demo:true, premium:true, period:"m", member:"all", filter:"all", listTab:"subs", calY:null, calM:null, calSel:null,
     profile:profile||{name:"Andrii",home:"",photo:null,remind:2,notif:true,hide:false,theme:"light"},
@@ -786,6 +839,9 @@ if(!S||!Array.isArray(S.items)){ S=sample(detectLang()); S.profile.name=""; }
 S.profile=Object.assign({name:"",home:"",photo:null,remind:2,notif:true,hide:false,theme:"light",analytics:true},S.profile||{});
 if(!Array.isArray(S.expenses)) S.expenses=[];
 if(!S.listTab) S.listTab="subs";
+if(!Array.isArray(S.customCats)) S.customCats=[];
+S.customCats.forEach(c=>{ CATS[c.id]=c.color; });
+if(!S.an) S.an={mode:null,per:"m",y:null,m:null};
 const darkMQ=window.matchMedia?window.matchMedia("(prefers-color-scheme: dark)"):null;
 function applyTheme(){ const th=S.profile.theme; document.body.classList.toggle("dark",th==="dark"||(th==="auto"&&!!(darkMQ&&darkMQ.matches))); }
 if(darkMQ&&darkMQ.addEventListener) darkMQ.addEventListener("change",()=>{ if(S.profile.theme==="auto") applyTheme(); });
@@ -837,7 +893,7 @@ function txRow(x){
   if(x.kind==="rec"){ const p=x.p;
     return `<button type="button" class="row" data-open="${p.id}">${tile(p)}<span class="main"><span class="name"><span>${esc(pname(p))}</span></span><span class="sub"><span class="rec-dot"></span>${t("fixed_lbl")} · ${dShort(x.d)}</span></span><span class="amt">${amtHTML(x.amt)}</span></button>`; }
   const e=x.e, who=hasPartner()?` · ${esc(memberName(e.payer))}`:"";
-  return `<button type="button" class="row" data-exp="${e.id}">${tile({name:e.name,cat:e.cat})}<span class="main"><span class="name"><span>${esc(e.name)}</span></span><span class="sub">${catName(e.cat)} · ${dShort(x.d)}${who}</span></span><span class="amt">${amtHTML(x.amt)}</span></button>`;
+  return `<button type="button" class="row" data-exp="${e.id}">${tile({name:e.name,cat:e.cat})}<span class="main"><span class="name"><span>${esc(e.name)}</span></span><span class="sub">${catName(e.cat)} · ${dShort(x.d)}${who}${e.note?` · <span class="note-inline">${esc(e.note)}</span>`:""}</span></span><span class="amt">${amtHTML(x.amt)}</span></button>`;
 }
 function memberSeg(){
   if(!hasPartner()) return "";
@@ -969,17 +1025,81 @@ function viewCalendar(){
 }
 function ring(cats,total){ const r=78,C=2*Math.PI*r; let acc=0;
   return `<svg viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="${r}" fill="none" stroke="rgba(128,130,140,.14)" stroke-width="22"/>${cats.map(([c,v])=>{ const len=v/total*C, gap=cats.length>1?3:0; const s=`<circle cx="100" cy="100" r="${r}" fill="none" stroke="${CATS[c]}" stroke-width="22" stroke-dasharray="${Math.max(0,len-gap)} ${C}" stroke-dashoffset="${-acc}"/>`; acc+=len; return s; }).join("")}</svg>`; }
+function priceAt(p,date){ const h=(p.hist||[]).slice().sort((a,b)=>a.to<b.to?-1:1); for(const e of h){ if(date<e.to) return e.a*(RATES[p.currency]||1); } return pln(p); }
+function recMonth(y,m){ const x=today(), cur=y===x.getFullYear()&&m===x.getMonth(); let tot=0; const by={};
+  scoped().forEach(p=>{ const d=occursIn(p,y,m); if(!d) return; const sn=parse(p.since||p.date); if(y*12+m<sn.getFullYear()*12+sn.getMonth()) return; const v=priceAt(p,iso(d)); tot+=v; by[p.cat]=(by[p.cat]||0)+v; });
+  return {tot,by,cur}; }
+function expMonth(y,m,upto){ let tot=0; const by={}; byMember(S.expenses).forEach(e=>{ const d=parse(e.date); if(d.getFullYear()===y&&d.getMonth()===m&&(!upto||d.getDate()<=upto)){ tot+=e.amount; by[e.cat]=(by[e.cat]||0)+e.amount; } }); return {tot,by}; }
+function anMonth(mode,y,m,upto){ const r=recMonth(y,m); if(mode==="sub") return {tot:r.tot,by:r.by};
+  const e=expMonth(y,m,upto), x=today(); let rt=0; const by={...e.by};
+  scoped().forEach(p=>{ const d=occursIn(p,y,m); if(!d) return; const sn=parse(p.since||p.date); if(y*12+m<sn.getFullYear()*12+sn.getMonth()) return; if(y===x.getFullYear()&&m===x.getMonth()&&d>x) return; if(upto&&d.getDate()>upto) return; const v=priceAt(p,iso(d)); rt+=v; by[p.cat]=(by[p.cat]||0)+v; });
+  return {tot:e.tot+rt,by}; }
+function anYear(mode,y){ const x=today(); let tot=0; const by={}, months=[]; for(let m=0;m<12;m++){ const future=y>x.getFullYear()||(y===x.getFullYear()&&m>x.getMonth()); const r=future?{tot:0,by:{}}:anMonth(mode,y,m); months.push(future?null:r.tot); tot+=r.tot; Object.entries(r.by).forEach(([c,v])=>by[c]=(by[c]||0)+v); } return {tot,by,months}; }
+function mLabel(y,m,len){ const s=new Date(y,m,1).toLocaleDateString(loc(),{month:len||"long"}); return s.charAt(0).toUpperCase()+s.slice(1); }
+function delta(cur,prev,label){ if(!(prev>0)) return `<div class="dl"><span class="dl-k">${label}</span><span class="dl-v muted">${t("an_nodata")}</span></div>`;
+  const d=cur-prev, pc=Math.round(d/prev*100), up=d>0.5, dn=d<-0.5;
+  return `<div class="dl"><span class="dl-k">${label}</span><span class="dl-v ${up?"up":dn?"down":""}">${up?"▲":dn?"▼":"="} ${Math.abs(pc)}% <small>${up?"+":dn?"−":""}${money(Math.abs(d),0)}</small></span></div>`; }
+function bars(vals,labels,sel,keys,ghost){ const mx=Math.max(1,...vals.filter(v=>v!=null),...(ghost||[]).filter(v=>v!=null));
+  return `<div class="bars" role="list">${vals.map((v,i)=>`<button type="button" class="bar${i===sel?" on":""}" ${keys?`data-anpick="${keys[i]}"`:""} role="listitem" aria-label="${labels[i]}: ${v==null?"—":money(v,0)}">
+    <span class="bwrap">${ghost&&ghost[i]!=null?`<span class="bg" style="height:${ghost[i]/mx*100}%"></span>`:""}<span class="bv" style="height:${v==null?0:Math.max(2,v/mx*100)}%"></span></span><span class="bl">${labels[i]}</span></button>`).join("")}</div>`; }
+function catRows(cur,prev,total){ const cats=Object.entries(cur).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]); if(!cats.length) return `<div class="empty">${t("no_data")}</div>`; const mx=cats[0][1];
+  return cats.map(([c,v])=>{ const pv=prev[c]||0, d=v-pv, up=d>0.5, dn=d<-0.5, col=CATS[c]||CATS.inne;
+    const chip=pv>0||v>0?`<span class="cd ${up?"up":dn?"down":"same"}">${up?"▲ ":dn?"▼ ":""}${up||dn?money(Math.abs(d),0):t("an_same")}</span>`:"";
+    return `<div class="cat"><i style="background:${col}"></i><span class="cn">${esc(catName(c))}${chip}</span><span class="v">${money(v,0)} <span class="pc">${Math.round(v/(total||1)*100)}%</span></span><div class="track"><div style="width:${Math.max(4,v/mx*100)}%;background:${col}"></div></div></div>`; }).join(""); }
+function catCard(cur,prev,total,label){ const cats=Object.entries(cur).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+  return `<section class="ring-card glass an-ring">${cats.length?`<div class="ring">${ring(cats,total||1)}<div class="c"><span>${label}</span><b class="num">${money(total,0)}</b></div></div>`:""}<div class="cats">${catRows(cur,prev,total)}</div></section>`; }
 function viewStats(){
-  const items=scoped(); const by={}; let m;
-  if(VARIANT==="c"){ const all=[...monthCharges(true),...monthExpenses()]; all.forEach(z=>{ const c=z.kind==="rec"?z.p.cat:z.e.cat; by[c]=(by[c]||0)+z.amt; }); m=all.reduce((a,z)=>a+z.amt,0); }
-  else { items.forEach(p=>by[p.cat]=(by[p.cat]||0)+monthly(p)); m=items.reduce((a,p)=>a+monthly(p),0); }
-  const cats=Object.entries(by).sort((a,b)=>b[1]-a[1]), max=cats.length?cats[0][1]:1, top=items.slice().sort((a,b)=>monthly(b)-monthly(a)).slice(0,5);
-  const lead=VARIANT==="c"?t("spent_m",{m:monthName()}):t("monthly_lc");
-  return `<header class="hdr"><span class="page-title">${t("stats")}</span><span></span></header>${memberSeg()}
-  <section class="ring-card glass"><div class="ring">${ring(cats,m||1)}<div class="c"><span>${lead}</span><b class="num">${money(m,0)}</b>${VARIANT==="c"?"":`<span>${t("a_year",{x:money(m*12,0)})}</span>`}</div></div>
-  <div class="cats">${cats.map(([c,v])=>`<div class="cat"><i style="background:${CATS[c]}"></i><span>${catName(c)}</span><span class="v">${money(v,0)} <span style="color:var(--ink-3);font-weight:500">${Math.round(v/(m||1)*100)}%</span></span><div class="track"><div style="width:${Math.max(4,v/max*100)}%;background:${CATS[c]}"></div></div></div>`).join("")||`<div class="empty">${t("no_data")}</div>`}</div></section>
-  <div class="sh"><h2>${t("top_year")}</h2></div><div class="rows">${top.map(p=>row(p)).join("")||`<div class="empty">${t("no_data")}</div>`}</div>${savingsCard(items)}${locked()}`;
+  if(!S.an) S.an={mode:null,per:"m",y:null,m:null}; const x=today(), A=S.an; if(!A.mode) A.mode=S.listTab==="exp"?"exp":"sub"; if(A.y==null){ A.y=x.getFullYear(); A.m=x.getMonth(); }
+  const mode=A.mode, seg=(k,v,l,cur)=>`<button type="button" data-an${k}="${v}" aria-pressed="${cur===v}">${l}</button>`;
+  const head=`<header class="hdr"><span class="page-title">${t("stats")}</span><span></span></header>${memberSeg()}
+    <div class="an-ctl"><div class="seg glass">${seg("mode","exp",t("tab_exp"),mode)}${seg("mode","sub",t("tab_subs"),mode)}</div><div class="seg glass small">${seg("per","m",t("an_m"),A.per)}${seg("per","y",t("an_y"),A.per)}</div></div>`;
+  const isCur=A.y===x.getFullYear()&&A.m===x.getMonth(), canNext=A.per==="m"?!isCur:A.y<x.getFullYear();
+  const nav=lbl=>`<div class="an-nav"><button type="button" class="icon-btn" data-annav="-1" aria-label="‹">${svg(UI.chevL,2.4)}</button><b>${lbl}</b><button type="button" class="icon-btn" data-annav="1" ${canNext?"":"disabled"} aria-label="›">${svg(UI.chev,2.4)}</button></div>`;
+  const title=mode==="sub"?t("an_total_sub"):t("an_total_exp");
+  let body="";
+  if(A.per==="m"){
+    const part=isCur&&mode==="exp"?x.getDate():0, cur=anMonth(mode,A.y,A.m), pd=new Date(A.y,A.m-1,1), prev=anMonth(mode,pd.getFullYear(),pd.getMonth(),part), ly=anMonth(mode,A.y-1,A.m,part), rng=part?` (1–${part})`:"";
+    const keys=[],labels=[],vals=[]; for(let i=11;i>=0;i--){ const d=new Date(A.y,A.m-i,1); keys.push(d.getFullYear()+"-"+d.getMonth()); labels.push(mLabel(d.getFullYear(),d.getMonth(),"short").replace(".","").slice(0,3)); vals.push(anMonth(mode,d.getFullYear(),d.getMonth()).tot); }
+    body=`${nav(mLabel(A.y,A.m)+" "+A.y)}
+    <section class="an-sum glass"><span class="label">${title}</span><div class="an-big num">${money(cur.tot,cur.tot%1?2:0)}</div>${isCur&&mode==="exp"?`<span class="an-note">${t("an_progress")}</span>`:""}
+      <div class="dls">${delta(cur.tot,prev.tot,t("an_vs_prev")+rng)}${delta(cur.tot,ly.tot,t("an_vs_ly")+rng)}</div></section>
+    <div class="sh"><h2>${t("an_last12")}</h2></div><section class="an-chart glass">${bars(vals,labels,11,keys)}</section>
+    <div class="sh"><h2>${t("an_cats")}</h2></div>${catCard(cur.by,prev.by,cur.tot,mLabel(A.y,A.m))}`;
+    if(mode==="exp"){ const big=byMember(S.expenses).filter(e=>{ const d=parse(e.date); return d.getFullYear()===A.y&&d.getMonth()===A.m; }).sort((a,b)=>b.amount-a.amount).slice(0,5);
+      body+=`<div class="sh"><h2>${t("an_biggest")}</h2></div><div class="rows">${big.length?big.map(e=>txRow({kind:"exp",e,d:parse(e.date),amt:e.amount})).join(""):`<div class="empty">${t("no_exp")}</div>`}</div><button type="button" class="btn primary" style="width:100%;margin-top:12px" data-act="addExp">${svg(UI.plus,2.4)}${t("add_exp")}</button>`; }
+    if(mode==="sub"){ const rec=recMonth(A.y,A.m).tot, ex=expMonth(A.y,A.m).tot, sh=(rec+ex)?Math.round(rec/(rec+ex)*100):0; body+=`<section class="an-share glass"><div><span class="label">${t("an_share")}</span><b class="num">${sh}%</b></div><p>${t("an_share_t",{p:sh})}</p><div class="track"><div style="width:${Math.min(100,sh)}%;background:linear-gradient(90deg,var(--a),var(--b))"></div></div></section>`; }
+  } else {
+    const cur=anYear(mode,A.y), prev=anYear(mode,A.y-1), filled=cur.months.filter(v=>v!=null&&v>0), avg=filled.length?filled.reduce((a,b)=>a+b,0)/filled.length:0;
+    let mi=-1,ma=-1; cur.months.forEach((v,i)=>{ if(v==null||v<=0||(A.y===x.getFullYear()&&i===x.getMonth())) return; if(ma<0||v>cur.months[ma]) ma=i; if(mi<0||v<cur.months[mi]) mi=i; });
+    const labels=Array.from({length:12},(_,i)=>mLabel(A.y,i,"short").replace(".","").slice(0,3));
+    const prevSame=prev.months.map((v,i)=>cur.months[i]==null?null:v); const prevTot=prevSame.reduce((a,v)=>a+(v||0),0);
+    body=`${nav(String(A.y))}
+    <section class="an-sum glass"><span class="label">${title} · ${A.y}</span><div class="an-big num">${money(cur.tot,0)}</div>
+      <div class="dls">${delta(cur.tot,prevTot,t("an_vs_py")+(A.y===x.getFullYear()?" ("+mLabel(A.y,0,"short").slice(0,3)+"–"+mLabel(A.y,x.getMonth(),"short").slice(0,3)+")":""))}</div>
+      <div class="an-facts"><div><span>${t("an_avg")}</span><b class="num">${money(avg,0)}</b></div><div><span>${t("an_max")}</span><b>${ma>=0?mLabel(A.y,ma):"—"}</b><small class="num">${ma>=0?money(cur.months[ma],0):""}</small></div><div><span>${t("an_min")}</span><b>${mi>=0?mLabel(A.y,mi):"—"}</b><small class="num">${mi>=0?money(cur.months[mi],0):""}</small></div></div></section>
+    <div class="sh"><h2>${t("an_months",{y:A.y,p:A.y-1})}</h2></div><section class="an-chart glass">${bars(cur.months,labels,A.y===x.getFullYear()?x.getMonth():-1,null,prev.months)}<div class="legend"><span><i class="lg-cur"></i>${A.y}</span><span><i class="lg-prev"></i>${A.y-1}</span></div></section>
+    <div class="sh"><h2>${t("an_cats")}</h2></div>${catCard(cur.by,prev.by,cur.tot,String(A.y))}`;
+  }
+  if(mode==="sub"){
+    const since=iso(new Date(x.getFullYear()-1,x.getMonth(),x.getDate())), rises=[];
+    scoped().forEach(p=>(p.hist||[]).forEach((h,i,arr)=>{ if(h.to<since) return; const next=arr[i+1]?arr[i+1].a:p.amount; if(next>h.a) rises.push({p,from:h.a,to:next,d:h.to}); }));
+    rises.sort((a,b)=>a.d<b.d?1:-1);
+    const yr=A.per==="y"?A.y:x.getFullYear(), active=scoped().length, newY=scoped().filter(p=>parse(p.since||p.date).getFullYear()===yr).length;
+    body+=`<section class="an-facts two-col glass"><div><span>${t("an_active")}</span><b class="num">${active}</b></div><div><span>${t("an_newy",{y:yr})}</span><b class="num">${newY}</b></div></section>
+    <div class="sh"><h2>${t("an_rises")}</h2></div><div class="rows">${rises.length?rises.map(r=>`<button type="button" class="row" data-open="${r.p.id}">${tile(r.p)}<span class="main"><span class="name"><span>${esc(pname(r.p))}</span></span><span class="sub">${t("an_from",{d:dLong(parse(r.d))})}</span></span><span class="amt rise"><span><s>${fmt(r.from,2)}</s> → <b>${fmt(r.to,2)} ${r.p.currency==="PLN"?"zł":r.p.currency}</b></span><small>▲ ${Math.round((r.to-r.from)/r.from*100)}%</small></span></button>`).join(""):`<div class="empty">${t("an_no_rises")}</div>`}</div>
+    <div class="sh"><h2>${t("top_year")}</h2></div><div class="rows">${scoped().slice().sort((a,b)=>monthly(b)-monthly(a)).slice(0,5).map(p=>row(p)).join("")||`<div class="empty">${t("no_data")}</div>`}</div>
+    ${savingsCard(scoped())}`;
+  }
+  return head+body+locked();
 }
+let anBound=false;
+function bindAnalysis(){ if(anBound) return; anBound=true;
+  view.addEventListener("click",e=>{ const b=e.target.closest("[data-anmode],[data-anper],[data-annav],[data-anpick]"); if(!b||b.disabled) return; const A=S.an, x=today();
+    if(b.dataset.anmode){ A.mode=b.dataset.anmode; track("analysis_mode",{mode:A.mode}); }
+    else if(b.dataset.anper){ A.per=b.dataset.anper; track("analysis_period",{per:A.per}); }
+    else if(b.dataset.annav){ const s=Number(b.dataset.annav); if(A.per==="m"){ const d=new Date(A.y,A.m+s,1); if(d>new Date(x.getFullYear(),x.getMonth(),1)) return; A.y=d.getFullYear(); A.m=d.getMonth(); } else { if(A.y+s>x.getFullYear()) return; A.y+=s; } }
+    else if(b.dataset.anpick){ const [yy,mm]=b.dataset.anpick.split("-").map(Number); A.y=yy; A.m=mm; }
+    save(); render(); }); }
 
 
 function openInstall(src){
@@ -1082,6 +1202,7 @@ function render(){
   applyTheme();
   if(!S.onboarded){ obStep=obStep||0; renderOnb(); return; }
   if(!hasPartner()) S.member="all";
+  bindAnalysis();
   view.innerHTML=tab==="home"?viewHome():tab==="calendar"?viewCalendar():tab==="stats"?viewStats():viewPayments();
   renderTabs();
 }
@@ -1146,6 +1267,7 @@ function openDetail(id){
     <div class="stat glass"><span class="k">${svg(UI.repeat)}${t("cycle")}</span><b>${cyc(p.cycle)}</b><small>${t("since",{d:dLong(parse(p.since||p.date))})}</small></div>
     <div class="stat glass"><span class="k">${svg(UI.clock)}${t("spent")}</span><b class="num">${money(totalSpent(p),0)}</b><small>${t("a_year",{x:money(monthly(p)*12,0)})}</small></div>
     <div class="stat glass"><span class="k">${svg(UI.tag)}${t("category")}</span><b>${catName(p.cat)}</b><small>${hasPartner()?esc(memberName(p.payer)):per(p.cycle)}</small></div></div>
+  ${p.note?`<section class="note-card glass"><span class="label">${t("f_note")}</span><p>${esc(p.note)}</p></section>`:""}
   <section class="toggles glass">
     <div class="tg"><span class="ic">${svg(UI.bell)}</span><div class="main"><b>${t("reminder")}</b><small>${remindLabel(p.remind)}</small></div>${sw("remind",p.remind>=0,t("reminder"))}</div>
     <div class="tg"><span class="ic">${svg(UI.gift)}</span><div class="main"><b>${t("trial")}</b><small>${t("trial_t")}</small></div>${sw("trial",!!p.trial,t("trial"))}</div>
@@ -1193,6 +1315,7 @@ function openEdit(p,preset){
     <div class="two"><div class="field"><label for="f-since">${t("f_since")}</label><input id="f-since" type="date" value="${d.since||d.date}"></div>
       <div class="field"><label for="f-remind">${t("f_remind")}</label><select id="f-remind" ${S.premium?"":"disabled"}>${opt(REMIND_OPTS.map(v=>[v,remindLabel(v)]),S.premium?d.remind:1)}</select></div></div>
     ${S.premium?"":`<span style="font-size:12px;color:var(--b)">${t("rem_prem")}</span>`}
+    <div class="field"><label for="f-note">${t("f_note")}</label><textarea id="f-note" rows="2" maxlength="300" placeholder="${t("ph_note")}">${esc(d.note||"")}</textarea></div>
     <div class="actions"><button class="btn primary" type="submit">${isNew?t("b_add"):t("b_save")}</button><button type="button" class="btn soft" data-close>${t("cancel")}</button></div>
   </form>`);
   const f=root.querySelector("#editForm");
@@ -1200,6 +1323,8 @@ function openEdit(p,preset){
     const amt=amountOf(f.querySelector("#f-amount")); if(amt==null) return;
     const nv=f.querySelector("#f-name").value.trim(), pf=f.querySelector("#f-payer");
     const np={...d,name:(d.k&&nv===t("p_"+d.k))?null:nv,amount:amt,currency:f.querySelector("#f-cur").value,cycle:Number(f.querySelector("#f-cycle").value),date:f.querySelector("#f-date").value||d.date||nextDay10(),cat:f.querySelector("#f-cat").value,payer:pf?pf.value:(d.payer||"m1"),since:f.querySelector("#f-since").value||f.querySelector("#f-date").value||d.since||iso(today()),remind:S.premium?Number(f.querySelector("#f-remind").value):1};
+    np.note=(f.querySelector("#f-note").value||"").trim();
+    if(!isNew&&d.amount!==""&&Number(d.amount)!==amt){ np.hist=[...(d.hist||[]),{to:iso(today()),a:Number(d.amount)}]; }
     if(isNew) S.items.push(np); else S.items[S.items.findIndex(x=>x.id===d.id)]=np;
     save(); render(); if(isNew){ closeSheet(); toast(t("t_add",{n:pname(np)})); track("payment_added",{category:np.cat,cycle:np.cycle,preset:!!np.k,currency:np.currency,count:S.items.length}); maybeExPrompt(); } else { openDetail(np.id); toast(t("t_saved")); }
   });
@@ -1213,14 +1338,22 @@ function openExpense(e){
     <div class="field"><label for="x-name">${t("f_name")}</label><input id="x-name" required maxlength="40" value="${esc(d.name)}" placeholder="${t("ph_exp")}"></div>
     <div class="two"><div class="field"><label for="x-amount">${t("f_amount")}</label><input id="x-amount" required inputmode="decimal" value="${d.amount===""?"":String(d.amount).replace(".",",")}" placeholder="0,00"></div>
       <div class="field"><label for="x-date">${t("f_when")}</label><input id="x-date" type="date" required value="${d.date}"></div></div>
-    <div class="${hasPartner()?"two":""}"><div class="field"><label for="x-cat">${t("f_cat")}</label><select id="x-cat">${opt(EXP_CATS.map(c=>[c,catName(c)]),d.cat)}</select></div>${payerField("x-payer",d.payer)}</div>
+    <div class="${hasPartner()?"two":""}"><div class="field"><label for="x-cat">${t("f_cat")}</label><select id="x-cat">${opt([...expCats().map(c=>[c,catName(c)]),["__new",t("cat_new")]],expCats().includes(d.cat)?d.cat:"food")}</select></div>${payerField("x-payer",d.payer)}</div>
+    <div id="xNewCat" class="newcat" hidden><div class="field"><label for="x-newcat">${t("cat_name")}</label><input id="x-newcat" maxlength="24" placeholder="${t("cat_ph")}"></div><button type="button" class="btn soft" id="xCatAdd">${t("cat_add")}</button></div>
+    <div class="field"><label for="x-note">${t("f_note")}</label><textarea id="x-note" rows="2" maxlength="300" placeholder="${t("ph_note")}">${esc(d.note||"")}</textarea></div>
     <div class="actions"><button class="btn primary" type="submit">${isNew?t("add_exp"):t("b_save")}</button><button type="button" class="btn soft" data-close>${t("cancel")}</button></div>
     ${isNew?"":`<button type="button" class="btn danger" id="xDel">${t("del")}</button><div id="xDelBox"></div>`}
   </form>`);
   const f=root.querySelector("#expForm");
-  f.addEventListener("submit",ev=>{ ev.preventDefault();
+  const cs=f.querySelector("#x-cat"), nc=f.querySelector("#xNewCat"); let lastCat=cs.value;
+  cs.addEventListener("change",()=>{ if(cs.value==="__new"){ nc.hidden=false; f.querySelector("#x-newcat").focus(); } else { nc.hidden=true; lastCat=cs.value; } });
+  f.querySelector("#xCatAdd").addEventListener("click",()=>{ const inp=f.querySelector("#x-newcat"), nm=inp.value.trim(); if(!nm){ inp.focus(); return; }
+    const ex=S.customCats.find(c=>c.name.toLowerCase()===nm.toLowerCase()); let id;
+    if(ex) id=ex.id; else { id="c_"+Date.now().toString(36); const color=CUSTOM_COLORS[S.customCats.length%CUSTOM_COLORS.length]; S.customCats.push({id,name:nm,color}); CATS[id]=color; save(); toast(t("t_cat_add",{n:nm})); track("category_added",{count:S.customCats.length}); }
+    const o=document.createElement("option"); o.value=id; o.textContent=nm; if(!ex) cs.insertBefore(o,cs.querySelector('option[value="__new"]')); cs.value=id; lastCat=id; nc.hidden=true; inp.value=""; });
+  f.addEventListener("submit",ev=>{ ev.preventDefault(); if(cs.value==="__new") cs.value=lastCat==="__new"?"food":lastCat;
     const amt=amountOf(f.querySelector("#x-amount")); if(amt==null) return; const pf=f.querySelector("#x-payer");
-    const ne={...d,name:f.querySelector("#x-name").value.trim()||catName(f.querySelector("#x-cat").value),amount:amt,date:f.querySelector("#x-date").value||iso(today()),cat:f.querySelector("#x-cat").value,payer:pf?pf.value:(d.payer||"m1")};
+    const ne={...d,name:f.querySelector("#x-name").value.trim()||catName(f.querySelector("#x-cat").value),amount:amt,date:f.querySelector("#x-date").value||iso(today()),cat:f.querySelector("#x-cat").value,payer:pf?pf.value:(d.payer||"m1"),note:(f.querySelector("#x-note").value||"").trim()};
     if(isNew) S.expenses.push(ne); else S.expenses[S.expenses.findIndex(x=>x.id===d.id)]=ne;
     save(); render(); closeSheet(); toast(isNew?t("t_exp_add",{n:ne.name}):t("t_saved")); if(isNew){ track("expense_added",{category:ne.cat,count:S.expenses.length}); maybeExPrompt(); } });
   const del=f.querySelector("#xDel");
